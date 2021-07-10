@@ -1,5 +1,4 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from random import shuffle
 
 def create_keyboard(values, answer):
     inline_kb_full = InlineKeyboardMarkup(row_width=3)

@@ -1,12 +1,20 @@
-import random
+import asyncio
+import random, time
+from asyncio import CancelledError
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
+from aiogram.types import CallbackQuery
 from asyncpg import Connection, Record
 from asyncpg.exceptions import UniqueViolationError
 from keyboards import captcha, captcha_handlers
 
 from loader import bot, dp, db
+
+success = False
+
+if success: print('АЕ')
 
 class reg(StatesGroup):
     pic = State()
@@ -104,11 +112,12 @@ database = DBCommands()
 
 @dp.message_handler(commands=["start"])
 async def register_user(message: types.Message):
+    global success
+    if success: success = False
+
     chat_id = message.chat.id
-    count_users = await database.count_users()
     img = await database.get_image()
     text = ""
-    bot_username = (await bot.get_me()).username
     text += f"""
     Представим, что это капча:
     """
@@ -122,21 +131,36 @@ async def register_user(message: types.Message):
     await dp.bot.send_photo(chat_id, img)
     random.shuffle(values)
     msg1 = await message.answer("Что на картинке?", reply_markup=captcha.create_keyboard(values, answer))
-    #await failed_captcha(message, msg1)
+    if not success: asyncio.ensure_future(timer(message, msg1))
 
-"""async def failed_captcha(message: types.Message, msg1):
+async def timer(message: types.Message, msg1):
+    my_task = None
     global success
-    if not success:
-        time.sleep(4)
-        await bot.edit_message_text(chat_id=message.chat.id, message_id=msg1.message_id,
-                                    text="Пользователь провалил капчу")"""
+    while not success:
+        await asyncio.sleep(0)
+        # listen for trigger / heartbeat
+        if not success and my_task is None:
+            my_task = asyncio.ensure_future(failed_captcha(message, msg1))
+
+        # also listen for termination of heartbeat / connection
+        elif success and my_task:
+            if not my_task.cancelled():
+                my_task.cancel()
+                success = True
+
+async def failed_captcha(message: types.Message, msg1):
+    await asyncio.sleep(3)
+    await bot.edit_message_text(chat_id=message.chat.id, message_id=msg1.message_id,
+                                text="Пользователь провалил капчу! Ответ не был выбран.")
+    await bot.delete_message(chat_id=message.chat.id, message_id=msg1.message_id-1)
+
 
 @dp.message_handler(commands="del")
 async def delete(message: types.Message):
     await bot.delete_message(message.chat.id, message.message_id-1)
 
 @dp.message_handler(commands="reg", state="*")
-async def pic_step(message: types.Message, state: FSMContext):
+async def pic_step(message: types.Message):
     await message.answer(text='Давай фотку')
     await reg.pic.set()
 
@@ -166,5 +190,3 @@ async def end_step(message: types.Message, state: FSMContext):
     user_data = await state.get_data()
     await database.add_new_img(user_data.get('pic_id'), user_data.get('ans'))
     await state.finish()
-
-"""------------------------------------------------------------------------------------------------------------------"""
