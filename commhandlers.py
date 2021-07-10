@@ -2,10 +2,9 @@ import random
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
-from aiogram.types import CallbackQuery
 from asyncpg import Connection, Record
 from asyncpg.exceptions import UniqueViolationError
-from keyboards import captcha
+from keyboards import captcha, captcha_handlers
 
 from loader import bot, dp, db
 
@@ -122,8 +121,15 @@ async def register_user(message: types.Message):
     await bot.send_message(chat_id, text)
     await dp.bot.send_photo(chat_id, img)
     random.shuffle(values)
-    await message.answer("Что на картинке?",
-                         reply_markup=captcha.create_keyboard(values, answer))
+    msg1 = await message.answer("Что на картинке?", reply_markup=captcha.create_keyboard(values, answer))
+    #await failed_captcha(message, msg1)
+
+"""async def failed_captcha(message: types.Message, msg1):
+    global success
+    if not success:
+        time.sleep(4)
+        await bot.edit_message_text(chat_id=message.chat.id, message_id=msg1.message_id,
+                                    text="Пользователь провалил капчу")"""
 
 @dp.message_handler(commands="del")
 async def delete(message: types.Message):
@@ -162,14 +168,3 @@ async def end_step(message: types.Message, state: FSMContext):
     await state.finish()
 
 """------------------------------------------------------------------------------------------------------------------"""
-
-@dp.callback_query_handler(lambda c: c.data == 'answer')
-async def process_callback_button1(callback_query: CallbackQuery):
-    await bot.answer_callback_query(callback_query.id)
-    await bot.send_message(callback_query.message.chat.id, 'Правильно!')
-    #await bot.delete_message(types.Message.chat.id, types.Message.message_id)
-
-@dp.callback_query_handler(lambda c: c.data == 'wrong')
-async def process_callback_button1(callback_query: CallbackQuery):
-    await bot.answer_callback_query(callback_query.id)
-    await bot.send_message(callback_query.message.chat.id, 'Неправильно!')
