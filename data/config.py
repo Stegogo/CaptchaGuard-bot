@@ -1,9 +1,11 @@
-from environs import Env
+import os
 
-# Теперь используем вместо библиотеки python-dotenv библиотеку environs
-env = Env()
-env.read_env()
+from dotenv import load_dotenv
 
-BOT_TOKEN = env.str("BOT_TOKEN")  # Забираем значение типа str
-ADMINS = env.list("ADMINS")  # Тут у нас будет список из админов
-IP = env.str("ip")  # Тоже str, но для айпи адреса хоста
+load_dotenv()
+
+TOKEN = os.getenv("TOKEN")
+ADMINS = os.getenv("ADMIN_ID")
+host = os.getenv("PGHOST")
+PG_USER = os.getenv("PG_USER")
+PG_PASS = os.getenv("PG_PASS")
