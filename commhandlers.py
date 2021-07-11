@@ -125,7 +125,7 @@ class DBCommands:
 database = DBCommands()
 
 async def register_user(message: types.Message, target_user_data):
-    global success, pic_msg, protect
+    global success, pic_msg
     chat_id = message.chat.id
     mode = await database.get_protect(chat_id)
     if mode == 'True':

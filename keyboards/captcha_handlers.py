@@ -15,12 +15,12 @@ async def process_callback_button1(callback_query: CallbackQuery):
         await bot.delete_message(chat_id=callback_query.message.chat.id, message_id=pic_id)
         await bot.send_message(callback_query.message.chat.id, 'Правильно!')
 
-        greet_text = await commhandlers.database.GET_GREET(callback_query.message.chat.id)
+        greet_text = await commhandlers.database.get_greeting(callback_query.message.chat.id)
         if greet_text != " ":
             text = str(greet_text)
             if "$user" in text:
                 text = text.replace("$user", f"@{callback_query.from_user.username}")
-            await bot.send_message(message.chat.id, text)
+            await bot.send_message(callback_query.message.chat.id, text)
         else:
             pass
     else:
