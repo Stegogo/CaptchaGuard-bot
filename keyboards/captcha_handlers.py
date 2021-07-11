@@ -13,8 +13,16 @@ async def process_callback_button1(callback_query: CallbackQuery):
         await bot.delete_message(chat_id=callback_query.message.chat.id, message_id=pic_id - 2)
         await bot.delete_message(chat_id=callback_query.message.chat.id, message_id=pic_id - 1)
         await bot.delete_message(chat_id=callback_query.message.chat.id, message_id=pic_id)
-        message_obj = await bot.send_message(callback_query.message.chat.id, 'Правильно!')
-        #await delete_msg(callback_query.message, message_obj)
+        await bot.send_message(callback_query.message.chat.id, 'Правильно!')
+
+        greet_text = await commhandlers.database.GET_GREET(callback_query.message.chat.id)
+        if greet_text != " ":
+            text = str(greet_text)
+            if "$user" in text:
+                text = text.replace("$user", f"@{callback_query.from_user.username}")
+            await bot.send_message(message.chat.id, text)
+        else:
+            pass
     else:
         await bot.answer_callback_query(
             callback_query.id,
@@ -32,7 +40,7 @@ async def process_callback_button1(callback_query: CallbackQuery):
         await bot.delete_message(chat_id=callback_query.message.chat.id, message_id=pic_id - 2)
         await bot.delete_message(chat_id=callback_query.message.chat.id, message_id=pic_id - 1)
         await bot.delete_message(chat_id=callback_query.message.chat.id, message_id=pic_id)
-        message_obj = await bot.send_message(callback_query.message.chat.id, f'Пользователь @{user_name} провалил капчу! Ответ выбран неправильно. Пользователь исключён из чата.')
+        await bot.send_message(callback_query.message.chat.id, f'Пользователь @{user_name} провалил капчу! Ответ выбран неправильно. Пользователь исключён из чата.')
         await ban_user(callback_query.message, user_id)
     else:
         await bot.answer_callback_query(

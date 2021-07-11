@@ -5,7 +5,9 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from asyncpg import Connection, Record
 from asyncpg.exceptions import UniqueViolationError
+
 from keyboards import captcha, captcha_handlers
+import handlers.bot_options.options_handlers
 
 from loader import bot, dp, db
 
@@ -22,19 +24,21 @@ class reg(StatesGroup):
 
 class DBCommands:
     pool: Connection = db
-    ADD_NEW_USER_REFERRAL = "INSERT INTO users(chat_id, username, full_name, referral) " \
-                            "VALUES ($1, $2, $3, $4) RETURNING id"
     ADD_NEW_USER = "INSERT INTO users(chat_id, username, full_name) VALUES ($1, $2, $3) RETURNING id"
     COUNT_USERS = "SELECT COUNT(*) FROM users"
     GET_ID = "SELECT id FROM users WHERE chat_id = $1"
-    CHECK_REFERRALS = "SELECT chat id FROM users WHERE referrals=" \
-                      "(SELECT id FROM users WHERE chat id = $1)"
-    CHECK_BALANCE = "SELECT balance FROM users WHERE chat_id = $1"
-    ADD_MONEY = "UPDATE users SET balance = balance + $1 WHERE chat_id = $2"
     GET_IMAGE = "SELECT picture FROM captcha ORDER BY RANDOM() LIMIT 1"
     GET_ANS = "SELECT answer FROM captcha WHERE picture = $1"
     GET_WRONG = "SELECT wrong_answers FROM captcha WHERE picture = $1"
     ADD_NEW_IMG = "INSERT INTO captcha(picture, answer) VALUES ($1, $2)"
+
+    ADD_NEW_CHAT_ID = "INSERT INTO users(chat_id, lang, greet, protect) VALUES ($1, $2, $3, $4)"
+    SET_LANG = "UPDATE users SET lang=$2 WHERE chat_id = $1"
+    SET_NEW_GREETING = "UPDATE users SET greet=$2 WHERE chat_id = $1"
+    SET_PROTECTION = "UPDATE users SET protect=$2 WHERE chat_id = $1"
+    GET_LANG = "SELECT lang FROM users WHERE chat_id = $1"
+    GET_GREET = "SELECT greet FROM users WHERE chat_id = $1"
+    GET_PROTECT = "SELECT protect FROM users WHERE chat_id = $1"
 
     async def add_new_user(self):
         user = types.User.get_current()
@@ -60,27 +64,6 @@ class DBCommands:
         user_id = types.User.get_current().id
         return await self.pool.fetchval(command, user_id)
 
-    async def check_referrals(self):
-        command = self.CHECK_REFERRALS
-        user_id = types.User.get_current().id
-        rows = await self.pool.fetch(command, user_id)
-        text = ""
-        for num, row in enumerate(rows):
-            chat = await bot.get_chat(row["chat_id"])
-            user_link = chat.get_mention(as_html=True)
-            text += str(num+1) + ". " + user_link
-        return text
-
-    async def check_balance(self):
-        command = self.CHECK_BALANCE
-        user_id = types.User.get_current()
-        return await self.pool.fetchval(command, user_id)
-
-    async def add_money(self, money):
-        command = self.ADD_MONEY
-        user_id = types.User.get_current()
-        return await self.pool.fetchval(command, money, user_id)
-
     async def get_image(self):
         command = self.GET_IMAGE
         return await self.pool.fetchval(command)
@@ -100,46 +83,80 @@ class DBCommands:
         args = img_id, img_answer
 
         try:
-            record = await self.pool.fetchval(command, *args)
+            await self.pool.fetchval(command, *args)
             await bot.send_message(chat_id, "Записано!")
         except UniqueViolationError:
             pass
 
+    async def add_new_chat_id(self, chat_id, lang, greet, protect, message):
+        command = self.ADD_NEW_CHAT_ID
+        args = chat_id, lang, greet, protect
+        await handlers.bot_options.options_handlers.send_menu(message)
+        try:
+            await self.pool.fetchval(command, *args)
+        except UniqueViolationError:
+            pass
+
+    async def set_new_greeting(self, chat_id, text):
+        command = self.SET_NEW_GREETING
+        return await self.pool.fetchval(command, chat_id, text)
+
+    async def set_new_lang(self, chat_id, lang):
+        command = self.SET_LANG
+        return await self.pool.fetchval(command, chat_id, lang)
+
+    async def set_new_protect(self, chat_id, protect_mode):
+        command = self.SET_PROTECTION
+        return await self.pool.fetchval(command, chat_id, protect_mode)
+
+    async def get_greeting(self, chat_id):
+        command = self.GET_GREET
+        return await self.pool.fetchval(command, chat_id)
+
+    async def get_lang(self, chat_id):
+        command = self.GET_LANG
+        return await self.pool.fetchval(command, chat_id)
+
+    async def get_protect(self, chat_id):
+        command = self.GET_PROTECT
+        return await self.pool.fetchval(command, chat_id)
+
+
 database = DBCommands()
 
 async def register_user(message: types.Message, target_user_data):
-    global success, pic_msg
-    if success: success = False
-
+    global success, pic_msg, protect
     chat_id = message.chat.id
-    img = await database.get_image()
-    text = ""
-    text += f"""
-    Представим, что это капча. @{target_user_data.username}, у тебя есть 60 секунд, чтобы дать ответ!
-    """
-    #answer = await database.get_ans(img)   # !!!!!! вне теста нам нужно вот это а сердце не нужно!!!!!!
-    answer = '❤'
-    wrong = await database.get_wrong(img)
-    values = wrong.split(', ')
-    values .insert(0, answer)
+    mode = await database.get_protect(chat_id)
+    if mode == 'True':
+        if success: success = False
+        img = await database.get_image()
+        text = ""
+        text += f"""
+        Представим, что это капча. @{target_user_data.username}, у тебя есть 60 секунд, чтобы дать ответ!
+        """
+        #answer = await database.get_ans(img)   # !!!!!! вне теста нам нужно вот это а сердце не нужно!!!!!!
+        answer = '❤'
+        wrong = await database.get_wrong(img)
+        values = wrong.split(', ')
+        values .insert(0, answer)
 
-    await bot.send_message(chat_id, text)
-    await dp.bot.send_photo(chat_id, img)
-    random.shuffle(values)
-    msg1 = await message.answer("Сердечко - правильный ответ", reply_markup=captcha.create_keyboard(values, answer))
-    pic_msg = int(msg1)
-    if not success: asyncio.ensure_future(timer(message, msg1))
+        await bot.send_message(chat_id, text)
+        await dp.bot.send_photo(chat_id, img)
+        random.shuffle(values)
+        msg1 = await message.answer("Сердечко - правильный ответ", reply_markup=captcha.create_keyboard(values, answer))
+        pic_msg = int(msg1)
+        if not success: asyncio.ensure_future(timer(message, msg1))
+    else:
+        pass
 
 async def timer(message: types.Message, msg1):
     my_task = None
     global success
     while not success:
         await asyncio.sleep(0)
-        # listen for trigger / heartbeat
         if not success and my_task is None:
             my_task = asyncio.ensure_future(failed_captcha(message, msg1))
-
-        # also listen for termination of heartbeat / connection
         elif success and my_task:
             if not my_task.cancelled():
                 my_task.cancel()
@@ -147,24 +164,28 @@ async def timer(message: types.Message, msg1):
 
 async def failed_captcha(message: types.Message, msg1):
     await asyncio.sleep(60)
+    global data
     await bot.edit_message_text(chat_id=message.chat.id, message_id=msg1.message_id,
-                                text="Пользователь провалил капчу! Ответ не был выбран.")
+                                text=f"Пользователь провалил капчу! Ответ не был выбран.")
     await bot.delete_message(chat_id=message.chat.id, message_id=msg1.message_id-1)
+    await captcha_handlers.ban_user(message, data.id)
 
 
 @dp.message_handler(content_types=["new_chat_members"])
 async def handler_new_member(message: types.Message):
-    global data
-    target_user_data = message.new_chat_members[0]
-    data = target_user_data
-    target_user_fname = message.new_chat_members[0].first_name
-    await bot.send_message(message.chat.id, "Привет, {0}!!".format(target_user_fname))
-    #if not message.new_chat_members[0].is_bot:
-    if data is None:
-        pass
+    me = await bot.get_me()
+    if message.new_chat_members[0].id != me.id:
+        global data
+        target_user_data = message.new_chat_members[0]
+        data = target_user_data
+        target_user_fname = message.new_chat_members[0].first_name
+        if not message.new_chat_members[0].is_bot:
+            if data is None:
+                pass
+            else:
+                await register_user(message, target_user_data)
     else:
-        await register_user(message, target_user_data)
-
+        await database.add_new_chat_id(message.chat.id, 'rus', "Привет", "on", message)
 
 @dp.message_handler(commands="reg", state="*")
 async def pic_step(message: types.Message):
@@ -185,12 +206,8 @@ async def ans_step(message: types.Message, state: FSMContext):
     await message.answer(text='Давай ответ')
     await reg.answer.set()
 
-
 @dp.message_handler(state=reg.answer, content_types=types.ContentTypes.TEXT)
 async def end_step(message: types.Message, state: FSMContext):
-    if not(map(str.isdigit, message.text)):
-        await message.reply("Цифру, пожалуйста")
-        return
     await message.answer(text='Спасибо!')
     await state.update_data(ans=message.text.title())
     await reg.end.set()
