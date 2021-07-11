@@ -4,6 +4,7 @@ from data import config
 
 import asyncio
 import logging
+import gettext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from sql import create_pool
 
@@ -14,4 +15,7 @@ loop = asyncio.get_event_loop()
 bot = Bot(token=config.TOKEN, parse_mode=types.ParseMode.HTML)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
+from middlewares.language_middlware import setup_middleware
+i18n = setup_middleware(dp)
+_ = i18n.gettext
 db = loop.run_until_complete(create_pool())

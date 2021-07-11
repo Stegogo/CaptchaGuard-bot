@@ -1,3 +1,4 @@
-python-dotenv
-asyncpg
-aiogram
+python-dotenv~=0.17.0
+asyncpg~=0.23.0
+aiogram~=2.12.1
+Babel~=2.9.0

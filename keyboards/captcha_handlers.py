@@ -2,7 +2,7 @@ import time
 
 from aiogram.types import CallbackQuery
 import commhandlers
-from loader import bot, dp
+from loader import bot, dp, _
 
 @dp.callback_query_handler(lambda c: c.data == 'answer')
 async def process_callback_button1(callback_query: CallbackQuery):

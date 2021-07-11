@@ -1,13 +1,16 @@
-from aiogram import executor
-
-from loader import bot
+from aiogram import executor, types
 from utils.notify_admins import on_startup_notify
+from loader import bot
 
 async def on_startup(dispatcher):
     await on_startup_notify(dispatcher)
 
 async def on_shutdown(dispatcher):
     await bot.close()
+
+async def get_lang():
+    from commhandlers import database
+    return await database.get_lang(types.Chat.get_current().id) or "en"
 
 if __name__ == '__main__':
     from commhandlers import dp

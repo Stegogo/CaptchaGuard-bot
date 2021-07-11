@@ -10,6 +10,7 @@ host = os.getenv("PGHOST")
 PG_USER = os.getenv("PG_USER")
 PG_PASS = os.getenv("PG_PASS")
 
-I18N_DOMAIN = 'captchabot'
+I18N_DOMAIN = 'base'
 BASE_DIR = Path(__file__).parent
-LOCALES_DIR = BASE_DIR/'locales'
+LOCALES_DIR = './locale'
+LANGUAGES = ['en', 'ru', 'ua']

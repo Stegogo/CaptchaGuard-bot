@@ -5,15 +5,18 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
 from asyncpg import Connection, Record
 from asyncpg.exceptions import UniqueViolationError
-
+from babel import Locale
 from keyboards import captcha, captcha_handlers
 import handlers.bot_options.options_handlers
 
-from loader import bot, dp, db
+from loader import bot, dp, db, _
+import os
 
+os.environ['LANGUAGE'] = 'en'
 success = False
 data = None
 pic_msg = None
+lang = 'en'
 
 class reg(StatesGroup):
     pic = State()
@@ -84,7 +87,7 @@ class DBCommands:
 
         try:
             await self.pool.fetchval(command, *args)
-            await bot.send_message(chat_id, "Записано!")
+            await bot.send_message(chat_id, _("Записано!"))
         except UniqueViolationError:
             pass
 
@@ -101,9 +104,9 @@ class DBCommands:
         command = self.SET_NEW_GREETING
         return await self.pool.fetchval(command, chat_id, text)
 
-    async def set_new_lang(self, chat_id, lang):
+    async def set_new_lang(self, chat_id, language):
         command = self.SET_LANG
-        return await self.pool.fetchval(command, chat_id, lang)
+        return await self.pool.fetchval(command, chat_id, language)
 
     async def set_new_protect(self, chat_id, protect_mode):
         command = self.SET_PROTECTION
@@ -115,6 +118,7 @@ class DBCommands:
 
     async def get_lang(self, chat_id):
         command = self.GET_LANG
+        print("got", await self.pool.fetchval(command, chat_id))
         return await self.pool.fetchval(command, chat_id)
 
     async def get_protect(self, chat_id):
@@ -125,16 +129,18 @@ class DBCommands:
 database = DBCommands()
 
 async def register_user(message: types.Message, target_user_data):
-    global success, pic_msg
+    global success, pic_msg, lang
     chat_id = message.chat.id
+    loc = await database.get_lang(chat_id)
+    lang = loc
     mode = await database.get_protect(chat_id)
     if mode == 'True':
         if success: success = False
         img = await database.get_image()
         text = ""
-        text += f"""
+        text += -(f"""
         Представим, что это капча. @{target_user_data.username}, у тебя есть 60 секунд, чтобы дать ответ!
-        """
+        """)
         #answer = await database.get_ans(img)   # !!!!!! вне теста нам нужно вот это а сердце не нужно!!!!!!
         answer = '❤'
         wrong = await database.get_wrong(img)
@@ -144,7 +150,7 @@ async def register_user(message: types.Message, target_user_data):
         await bot.send_message(chat_id, text)
         await dp.bot.send_photo(chat_id, img)
         random.shuffle(values)
-        msg1 = await message.answer("Сердечко - правильный ответ", reply_markup=captcha.create_keyboard(values, answer))
+        msg1 = await message.answer(_("Сердечко - правильный ответ"), reply_markup=captcha.create_keyboard(values, answer))
         pic_msg = int(msg1)
         if not success: asyncio.ensure_future(timer(message, msg1))
     else:
@@ -166,7 +172,7 @@ async def failed_captcha(message: types.Message, msg1):
     await asyncio.sleep(60)
     global data
     await bot.edit_message_text(chat_id=message.chat.id, message_id=msg1.message_id,
-                                text=f"Пользователь провалил капчу! Ответ не был выбран.")
+                                text=(_(f"Пользователь провалил капчу! Ответ не был выбран.")))
     await bot.delete_message(chat_id=message.chat.id, message_id=msg1.message_id-1)
     await captcha_handlers.ban_user(message, data.id)
 
@@ -185,12 +191,17 @@ async def handler_new_member(message: types.Message):
             else:
                 await register_user(message, target_user_data)
     else:
-        await database.add_new_chat_id(message.chat.id, 'rus', "Привет", "on", message)
+        await database.add_new_chat_id(message.chat.id, 'en', " ", "True", message)     # Default options
 
 @dp.message_handler(commands="reg", state="*")
 async def pic_step(message: types.Message):
-    await message.answer(text='Давай фотку')
-    await reg.pic.set()
+    chat_id = message.from_user.id
+    if chat_id == '378441450':
+        await database.set_new_lang(message.from_user.id, 'en')
+        await message.answer('Давай фотку')
+        await reg.pic.set()
+    else:
+        pass
 
 @dp.message_handler(state=reg.pic, content_types=['photo'])
 async def ans_step(message: types.Message, state: FSMContext):

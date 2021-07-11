@@ -3,7 +3,6 @@ import logging
 from aiogram import Dispatcher, Bot
 from data.config import ADMINS, TOKEN
 
-
 async def on_startup_notify(dp: Dispatcher):
     bot = Bot(token=TOKEN)
     try:
