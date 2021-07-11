@@ -10,7 +10,10 @@ async def on_shutdown(dispatcher):
 
 async def get_lang():
     from commhandlers import database
-    return await database.get_lang(types.Chat.get_current().id) or "en"
+    try:
+        return await database.get_lang(types.Chat.get_current().id)
+    except AttributeError:
+        return "en"
 
 if __name__ == '__main__':
     from commhandlers import dp

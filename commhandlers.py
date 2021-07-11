@@ -118,7 +118,6 @@ class DBCommands:
 
     async def get_lang(self, chat_id):
         command = self.GET_LANG
-        print("got", await self.pool.fetchval(command, chat_id))
         return await self.pool.fetchval(command, chat_id)
 
     async def get_protect(self, chat_id):
