@@ -6,6 +6,13 @@ from utils.notify_admins import on_startup_notify
 async def on_startup(dispatcher):
     await on_startup_notify(dispatcher)
 
+    """async def greet():
+        if types.message.ContentType.NEW_CHAT_MEMBERS:
+            print(types.message.ContentTypes.NEW_CHAT_MEMBERS)
+            # bot.sendMessage(message.chat.id, types.message.ContentType.NEW_CHAT_MEMBERS + " joined!")
+
+    await asyncio.ensure_future(greet())"""
+
 async def on_shutdown(dispatcher):
     await bot.close()
 

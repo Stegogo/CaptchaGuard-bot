@@ -1,11 +1,8 @@
 import asyncio
-import random, time
-from asyncio import CancelledError
-
+import random
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import StatesGroup, State
-from aiogram.types import CallbackQuery
 from asyncpg import Connection, Record
 from asyncpg.exceptions import UniqueViolationError
 from keyboards import captcha, captcha_handlers
@@ -13,8 +10,7 @@ from keyboards import captcha, captcha_handlers
 from loader import bot, dp, db
 
 success = False
-
-if success: print('АЕ')
+data = None
 
 class reg(StatesGroup):
     pic = State()
@@ -110,8 +106,8 @@ class DBCommands:
 
 database = DBCommands()
 
-@dp.message_handler(commands=["start"])
-async def register_user(message: types.Message):
+@dp.message_handler()
+async def register_user(message: types.Message, target_user_data):
     global success
     if success: success = False
 
@@ -119,7 +115,7 @@ async def register_user(message: types.Message):
     img = await database.get_image()
     text = ""
     text += f"""
-    Представим, что это капча:
+    Представим, что это капча. @{target_user_data.username}, у тебя есть 10 секунд, чтобы дать ответ!
     """
     #answer = await database.get_ans(img)   # !!!!!! вне теста нам нужно вот это а сердце не нужно!!!!!!
     answer = '❤'
@@ -130,7 +126,7 @@ async def register_user(message: types.Message):
     await bot.send_message(chat_id, text)
     await dp.bot.send_photo(chat_id, img)
     random.shuffle(values)
-    msg1 = await message.answer("Что на картинке?", reply_markup=captcha.create_keyboard(values, answer))
+    msg1 = await message.answer("Сердечко - правильный ответ", reply_markup=captcha.create_keyboard(values, answer))
     if not success: asyncio.ensure_future(timer(message, msg1))
 
 async def timer(message: types.Message, msg1):
@@ -149,15 +145,21 @@ async def timer(message: types.Message, msg1):
                 success = True
 
 async def failed_captcha(message: types.Message, msg1):
-    await asyncio.sleep(3)
+    await asyncio.sleep(10)
     await bot.edit_message_text(chat_id=message.chat.id, message_id=msg1.message_id,
                                 text="Пользователь провалил капчу! Ответ не был выбран.")
     await bot.delete_message(chat_id=message.chat.id, message_id=msg1.message_id-1)
 
 
-@dp.message_handler(commands="del")
-async def delete(message: types.Message):
-    await bot.delete_message(message.chat.id, message.message_id-1)
+@dp.message_handler(content_types=["new_chat_members"])
+async def handler_new_member(message: types.Message):
+    global data
+    data = target_user_data = message.new_chat_members[0]
+    target_user_fname = message.new_chat_members[0].first_name
+    await bot.send_message(message.chat.id, "Привет, {0}!!".format(target_user_fname))
+    #if not message.new_chat_members[0].is_bot:
+    await register_user(message, target_user_data)
+
 
 @dp.message_handler(commands="reg", state="*")
 async def pic_step(message: types.Message):
