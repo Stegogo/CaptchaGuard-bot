@@ -6,24 +6,24 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 from asyncpg import Connection, Record
 from asyncpg.exceptions import UniqueViolationError
 from babel import Locale
+from data import config
 from keyboards import captcha, captcha_handlers
 import handlers.bot_options.options_handlers
 
 from loader import bot, dp, db, _
 import os
 
-os.environ['LANGUAGE'] = 'en'
 success = False
 data = None
 pic_msg = None
-lang = 'en'
 
-class reg(StatesGroup):
+class Reg(StatesGroup):
     pic = State()
     answer = State()
     end = State()
     pic_id = ""
-    ans = 0
+    ans = ""
+    wrong_ans = ""
 
 class DBCommands:
     pool: Connection = db
@@ -33,7 +33,7 @@ class DBCommands:
     GET_IMAGE = "SELECT picture FROM captcha ORDER BY RANDOM() LIMIT 1"
     GET_ANS = "SELECT answer FROM captcha WHERE picture = $1"
     GET_WRONG = "SELECT wrong_answers FROM captcha WHERE picture = $1"
-    ADD_NEW_IMG = "INSERT INTO captcha(picture, answer) VALUES ($1, $2)"
+    ADD_NEW_IMG = "INSERT INTO captcha(picture, answer, wrong_answers) VALUES ($1, $2, $3)"
 
     ADD_NEW_CHAT_ID = "INSERT INTO users(chat_id, lang, greet, protect) VALUES ($1, $2, $3, $4)"
     SET_LANG = "UPDATE users SET lang=$2 WHERE chat_id = $1"
@@ -79,15 +79,15 @@ class DBCommands:
         command = self.GET_WRONG
         return await self.pool.fetchval(command, pic)
 
-    async def add_new_img(self, img_id, img_answer):
+    async def add_new_img(self, img_id, img_answer, wrong_ans):
         command = self.ADD_NEW_IMG
         user = types.User.get_current()
         chat_id = user.id
-        args = img_id, img_answer
+        args = img_id, img_answer, wrong_ans
 
         try:
             await self.pool.fetchval(command, *args)
-            await bot.send_message(chat_id, _("Записано!"))
+            await bot.send_message(chat_id, "Записано!")
         except UniqueViolationError:
             pass
 
@@ -128,20 +128,22 @@ class DBCommands:
 database = DBCommands()
 
 async def register_user(message: types.Message, target_user_data):
-    global success, pic_msg, lang
+    global success, pic_msg
     chat_id = message.chat.id
-    loc = await database.get_lang(chat_id)
-    lang = loc
     mode = await database.get_protect(chat_id)
     if mode == 'True':
         if success: success = False
         img = await database.get_image()
         text = ""
-        text += -(f"""
-        Представим, что это капча. @{target_user_data.username}, у тебя есть 60 секунд, чтобы дать ответ!
-        """)
-        #answer = await database.get_ans(img)   # !!!!!! вне теста нам нужно вот это а сердце не нужно!!!!!!
-        answer = '❤'
+        try:
+            text += _(f"""
+            Привет, @%x! Докажи, что ты не бот, и дай ответ на задачу с картинки ниже. У тебя есть 60 секунд!
+            """) % target_user_data.username
+        except NameError:
+            text += _(f"""
+            Привет! Докажи, что ты не бот, и дай ответ на задачу с картинки ниже. У тебя есть 60 секунд!
+            """)
+        answer = await database.get_ans(img)
         wrong = await database.get_wrong(img)
         values = wrong.split(', ')
         values .insert(0, answer)
@@ -149,7 +151,7 @@ async def register_user(message: types.Message, target_user_data):
         await bot.send_message(chat_id, text)
         await dp.bot.send_photo(chat_id, img)
         random.shuffle(values)
-        msg1 = await message.answer(_("Сердечко - правильный ответ"), reply_markup=captcha.create_keyboard(values, answer))
+        msg1 = await message.answer(_("➖Нажми на правильный ответ➖"), reply_markup=captcha.create_keyboard(values, answer))
         pic_msg = int(msg1)
         if not success: asyncio.ensure_future(timer(message, msg1))
     else:
@@ -171,7 +173,7 @@ async def failed_captcha(message: types.Message, msg1):
     await asyncio.sleep(60)
     global data
     await bot.edit_message_text(chat_id=message.chat.id, message_id=msg1.message_id,
-                                text=(_(f"Пользователь провалил капчу! Ответ не был выбран.")))
+                                text=(_(f"Пользователь провалил капчу! Ответ не был выбран. Пользователь исключён из чата.")))
     await bot.delete_message(chat_id=message.chat.id, message_id=msg1.message_id-1)
     await captcha_handlers.ban_user(message, data.id)
 
@@ -192,20 +194,20 @@ async def handler_new_member(message: types.Message):
     else:
         await database.add_new_chat_id(message.chat.id, 'en', " ", "True", message)     # Default options
 
-@dp.message_handler(commands="reg", state="*")
+# Adding new captcha to the database
+@dp.message_handler(commands="reg", state="*")  # Command available only for bot admin (id stated in .env)
 async def pic_step(message: types.Message):
-    chat_id = message.from_user.id
-    if chat_id == '378441450':
-        await database.set_new_lang(message.from_user.id, 'en')
-        await message.answer('Давай фотку')
-        await reg.pic.set()
+    chat_id = message.chat.id
+    if chat_id == int(config.ADMINS):
+        await message.answer('Отправь картинку с капчей')
+        await Reg.pic.set()
     else:
         pass
 
-@dp.message_handler(state=reg.pic, content_types=['photo'])
+@dp.message_handler(state=Reg.pic, content_types=['photo'])
 async def ans_step(message: types.Message, state: FSMContext):
     chat_id = message.from_user.id
-    await bot.send_message(chat_id, "Получена фоточка!")
+    await bot.send_message(chat_id, "Окей!")
     document_id = message.photo[0].file_id
     file_info = await bot.get_file(document_id)
     print(f'file_id: {file_info.file_id}')
@@ -214,13 +216,19 @@ async def ans_step(message: types.Message, state: FSMContext):
     print(f'file_unique_id: {file_info.file_unique_id}')
     await state.update_data(pic_id=file_info.file_id)
     await message.answer(text='Давай ответ')
-    await reg.answer.set()
+    await Reg.answer.set()
 
-@dp.message_handler(state=reg.answer, content_types=types.ContentTypes.TEXT)
+@dp.message_handler(state=Reg.answer, content_types=types.ContentTypes.TEXT)
 async def end_step(message: types.Message, state: FSMContext):
-    await message.answer(text='Спасибо!')
     await state.update_data(ans=message.text.title())
-    await reg.end.set()
+    await message.answer(text='Теперь введи ПЯТЬ неправильных ответов в строку через запятую.'
+                              'Например: "1, 2, 3, 4, 5"')
+    await Reg.end.set()
+
+@dp.message_handler(state=Reg.end, content_types=types.ContentTypes.TEXT)
+async def end_step(message: types.Message, state: FSMContext):
+    await state.update_data(wrong_ans=message.text.title())
+    await message.answer(text='Спасибо!')
     user_data = await state.get_data()
-    await database.add_new_img(user_data.get('pic_id'), user_data.get('ans'))
+    await database.add_new_img(user_data.get('pic_id'), user_data.get('ans'), user_data.get('wrong_ans'))
     await state.finish()
