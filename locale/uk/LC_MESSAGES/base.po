@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-12 06:05+0300\n"
+"POT-Creation-Date: 2021-07-12 08:23+0300\n"
 "PO-Revision-Date: 2021-07-11 21:14+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -104,10 +104,6 @@ msgstr ""
 msgid "Выберите язык:"
 msgstr ""
 
-#: handlers/bot_options/options_handlers.py:114
-msgid "Your language will be changed starting with the next message!"
-msgstr ""
-
 #: keyboards/captcha_handlers.py:16
 msgid "Правильно!"
 msgstr ""
@@ -162,5 +158,8 @@ msgstr ""
 #~ "    Вы также можете отключить приветствие:\n"
 #~ "    /set_new_greeting -\n"
 #~ "    "
+#~ msgstr ""
+
+#~ msgid "Your language will be changed starting with the next message!"
 #~ msgstr ""
 

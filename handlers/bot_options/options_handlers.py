@@ -111,4 +111,4 @@ async def change_language(call: CallbackQuery):
     language = call.data[-2:]
     await commhandlers.database.set_new_lang(call.message.chat.id, language)
     await call.message.edit_reply_markup()
-    await call.message.edit_text(_("Your language will be changed starting with the next message!", locale=language))
+    await call.message.edit_text("✅")
