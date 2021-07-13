@@ -43,7 +43,7 @@ async def set_greet_1(message: types.Message):
 /set_new_greeting -""")
         await message.answer(text=text)
     else:
-        await message.answer(non_admin_text)
+        await message.answer(_(non_admin_text))
 
 @dp.message_handler(commands=['set_new_greeting'])
 async def set_greet_2(message: types.Message):
@@ -57,7 +57,7 @@ async def set_greet_2(message: types.Message):
             await commhandlers.database.set_new_greeting(message.chat.id, arguments)
         await message.answer(_("Сообщение приветствия изменено!"))
     else:
-        await message.answer(non_admin_text)
+        await message.answer(_(non_admin_text))
 
 @dp.message_handler(commands=['disable_captcha'])
 async def set_captcha_1(message: types.Message):
@@ -71,7 +71,7 @@ async def set_captcha_1(message: types.Message):
         else:
             await message.answer(_("Капча уже отключена! 🔓"))
     else:
-        await message.answer(non_admin_text)
+        await message.answer(_(non_admin_text))
 @dp.message_handler(commands=['enable_captcha'])
 async def set_captcha_2(message: types.Message):
     tmp = await bot.get_chat_administrators(message.chat.id)
@@ -84,7 +84,7 @@ async def set_captcha_2(message: types.Message):
         else:
             await message.answer(_("Капча уже включена! 🔒"))
     else:
-        await message.answer(non_admin_text)
+        await message.answer(_(non_admin_text))
 @dp.message_handler(commands=['set_language'])
 async def set_language(message: types.Message):
     tmp = await bot.get_chat_administrators(message.chat.id)
@@ -104,7 +104,7 @@ async def set_language(message: types.Message):
         )
         msg = await message.answer(_("Выберите язык:"), reply_markup=languages_markup)
     else:
-        await message.answer(non_admin_text)
+        await message.answer(_(non_admin_text))
 
 @dp.callback_query_handler(text_contains="lang")
 async def change_language(call: CallbackQuery):
