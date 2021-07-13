@@ -22,10 +22,11 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"            Привет, @%x! Докажи, что ты не бот, и дай ответ на задачу с "
+"            Привет, $user! Докажи, что ты не бот, и дай ответ на задачу с "
 "картинки ниже. У тебя есть 60 секунд!\n"
 "            "
 msgstr ""
+"Welcome, $user! Prove that you're not a bot and solve the captcha below. You have 60 seconds!\n"
 
 #: commhandlers.py:143
 msgid ""
@@ -34,20 +35,22 @@ msgid ""
 "картинки ниже. У тебя есть 60 секунд!\n"
 "            "
 msgstr ""
+"Welcome! Prove that you're not a bot and solve the captcha below. You have 60 seconds!\n"
 
 #: commhandlers.py:154
 msgid "➖Нажми на правильный ответ➖"
-msgstr ""
+msgstr "➖Choose the correct answer➖"
 
 #: commhandlers.py:176
 msgid ""
 "Пользователь провалил капчу! Ответ не был выбран. Пользователь исключён "
 "из чата."
-msgstr ""
+msgstr "Captha failed! Answer not given. The user is banned from the chat."
+
 
 #: handlers/bot_options/options_handlers.py:17
 msgid "Ты не админ и не можешь настраивать меня!"
-msgstr ""
+msgstr "You're not an admin so you can't change my options!"
 
 #: handlers/bot_options/options_handlers.py:21
 msgid ""
@@ -63,6 +66,17 @@ msgid ""
 "/disable_captcha: Отключить капчу 🔓\n"
 "/enable_captcha: Включить капчу 🔒"
 msgstr ""
+"\n"
+"Hi! 👋 I'm CaptchaGuard, protecting your chat from bot users.\n"
+"\n"
+"You've called up the settings menu \n"
+"Only chat administrators can use it.\n"
+"\n"
+"Available commands:\n"
+"/set_language: Change language 🌍\n"
+"/set_greeting: Change greeting message ⭐️\n"
+"/disable_captcha: Disable protection 🔓\n"
+"/enable_captcha: Enable protection 🔒"
 
 #: handlers/bot_options/options_handlers.py:37
 msgid ""
@@ -78,14 +92,23 @@ msgid ""
 "Вы также можете отключить приветствие:\n"
 "/set_new_greeting -"
 msgstr ""
+"\n"
+"You can set up a message that will greet a new chat member who solved captcha.\n"
+"For example, you can describe chat rules or put in some important links\n"
+"\n"
+"Please type a new greeting message after a command, like this:\n"
+"/set_new_greeting Welcome to the club, $user!\n"
+"\n"
+"To disable greeting message:\n"
+"/set_new_greeting -"
 
 #: handlers/bot_options/options_handlers.py:58
 msgid "Сообщение приветствия изменено!"
-msgstr ""
+msgstr "New greeting message set!"
 
 #: handlers/bot_options/options_handlers.py:70
 msgid "Капча отключена! 🔓 Если хотите вернуть её обратно, введите /enable_captcha"
-msgstr ""
+msgstr "Captcha is OFF! 🔓 To enable it, type /enable_captcha"
 
 #: handlers/bot_options/options_handlers.py:72
 msgid "Капча уже отключена! 🔓"
@@ -93,7 +116,7 @@ msgstr "Captcha is already off! 🔓"
 
 #: handlers/bot_options/options_handlers.py:83
 msgid "Капча включена! 🔒 Если хотите выключить её, введите /disable_captcha"
-msgstr ""
+msgstr "Captcha is ON! 🔒 To disable it, type /disable_captcha"
 
 #: handlers/bot_options/options_handlers.py:85
 msgid "Капча уже включена! 🔒"
@@ -101,24 +124,24 @@ msgstr "Captcha is already on! 🔒"
 
 #: handlers/bot_options/options_handlers.py:105
 msgid "Выберите язык:"
-msgstr ""
+msgstr "Choose language"
 
 #: keyboards/captcha_handlers.py:16
 msgid "Правильно!"
-msgstr ""
+msgstr "Correct!"
 
 #: keyboards/captcha_handlers.py:29 keyboards/captcha_handlers.py:48
 msgid "Эта капча не для тебя 😉"
-msgstr ""
+msgstr "This captcha is not for you 😉"
 
 #: keyboards/captcha_handlers.py:43
 msgid ""
 "Пользователь провалил капчу! Ответ выбран неправильно. Пользователь "
 "исключён из чата."
-msgstr ""
+msgstr "Captha failed! Answer not given. The user is banned from the chat."
 
 #~ msgid "Ты не админ и не можешь менять мои настройки!"
-#~ msgstr ""
+#~ msgstr "You're not an admin so you can't change my options!"
 
 #~ msgid ""
 #~ "\n"

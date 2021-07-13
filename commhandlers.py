@@ -137,9 +137,9 @@ async def register_user(message: types.Message, target_user_data):
         text = ""
         try:
             text += _(f"""
-            Привет, @%x! Докажи, что ты не бот, и дай ответ на задачу с картинки ниже. У тебя есть 60 секунд!
-            """) % target_user_data.username
-        except NameError:
+            Привет, $user! Докажи, что ты не бот, и дай ответ на задачу с картинки ниже. У тебя есть 60 секунд!
+            """).replace('$user!', f'@{target_user_data.username}!')
+        except:
             text += _(f"""
             Привет! Докажи, что ты не бот, и дай ответ на задачу с картинки ниже. У тебя есть 60 секунд!
             """)
