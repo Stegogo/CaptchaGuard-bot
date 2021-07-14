@@ -8,13 +8,16 @@ from asyncpg import Connection, Record
 import commhandlers
 import gettext
 
-import data.config
+from data import config
 from loader import bot, dp, db, _
 
 lang = None
 greet = None
 protect = True
 non_admin_text = _("Ты не админ и не можешь настраивать меня!")
+
+class TechSupport(StatesGroup):
+    send_msg = State()
 
 @dp.message_handler(commands="menu")
 async def send_menu(message: types.Message):
@@ -28,6 +31,46 @@ async def send_menu(message: types.Message):
 /disable_captcha: Отключить капчу 🔓
 /enable_captcha: Включить капчу 🔒""")
     await message.answer(text=text)
+
+@dp.message_handler(commands="about")
+async def send_menu(message: types.Message):
+    text = (f"""
+Привет! 👋 Я - CaptchaGuard!
+Я бот, который защищает капчей публичные чаты от пользователей-ботов.\n
+Как это работает:
+Когда к чату присоединяется новый участник, я даю ему простую задачу, чтобы проверить, бот он или человек.
+Пользователь, который не дал ответ, или ответил неправильно, считается ботом и исключается из чата.
+Если пользователь ответил правильно - он верифицирован и может общаться в вашем чате.\n
+CaptchaGuard - бот с открытым кодом!
+Пожалуйста, поддержите разработчика на карту ❤️5168755455346094\n
+Доступные команды:
+/menu: Главное меню ✏️
+/contact: Написать разработчику ⚙️
+""")
+    await message.answer(text=text)
+
+@dp.message_handler(commands="contact", state="*")
+async def send_menu(message: types.Message):
+    text = (f"""
+То, что ты сейчас напишешь, будет переслано разработчику!
+Постарайся уместить то, что хочешь сказать, в одном сообщении ❤️\n
+Чтобы отменить команду - нажми /cancel
+""")
+    await message.answer(text=text)
+    await TechSupport.send_msg.set()
+
+@dp.message_handler(state=TechSupport.send_msg, content_types=types.ContentTypes.TEXT)
+async def forward_to_support(message: types.Message):
+    msg = message.text.title()
+    await dp.bot.send_message(int(config.ADMINS), msg)
+    await message.sen
+    await message.answer("Сообщение отправлено. Спасибо!")
+    await state.finish()
+
+@dp.message_handler(commands="cancel")
+async def forward_cancel(message: types.Message):
+    await message.answer("✅")
+    await state.finish()
 
 @dp.message_handler(commands="set_greeting")
 async def set_greet_1(message: types.Message):
