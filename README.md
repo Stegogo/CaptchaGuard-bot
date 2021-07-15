@@ -20,7 +20,13 @@
  </p>
 
 ## How it Works
- <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+  <p>
+      CaptchaGuard is an easy-to-use bot that sends simple mathematical captcha to check if a new member of a chat is a bot. Some examples of the captcha:<br>
+      <img src="git-readme-pics/05.png" alt="captcha_1" width="370" height="200">
+      <img src="git-readme-pics/08.png" alt="captcha_2" width="370" height="200">
+      <img src="git-readme-pics/07.png" alt="captcha_3" width="370" height="200">
+      <img src="git-readme-pics/10.png" alt="captcha_4" width="370" height="200">
+  </p>
 ## Features
  <br> <br> <br> <br>
 ## Report Bug
