@@ -24,4 +24,12 @@ async def get_lang():
 
 if __name__ == '__main__':
     from commhandlers import dp
-    executor.start_polling(dp, on_startup=on_startup, on_shutdown=on_shutdown)
+    import os
+
+    PORT = int(os.environ.get('PORT', 5000))
+    executor.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path="1858575777:AAExROkiyWg7w0JXpazthxt3Qjup8w8F5ZA")
+    executor.bot.setWebhook('https://captcha-guard-bot.herokuapp.com/' + TOKEN)
+    executor.idle()
+    #executor.start_polling(dp, on_startup=on_startup, on_shutdown=on_shutdown)
