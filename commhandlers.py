@@ -94,7 +94,7 @@ class DBCommands:
     async def add_new_chat_id(self, chat_id, lang, greet, protect, message):
         command = self.ADD_NEW_CHAT_ID
         args = chat_id, lang, greet, protect
-        await handlers.bot_options.options_handlers.send_menu(message)
+        await handlers.bot_options.options_handlers.send_about(message)
         try:
             await self.pool.fetchval(command, *args)
         except UniqueViolationError:

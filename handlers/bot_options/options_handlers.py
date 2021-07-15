@@ -18,6 +18,12 @@ non_admin_text = _("Ты не админ и не можешь настраива
 
 class TechSupport(StatesGroup):
     send_msg = State()
+    chat_id = 0
+class SupportReply(StatesGroup):
+    send_msg = State()
+class ReplyTo:
+    msg_id = 0
+    chat_id = 0
 
 @dp.message_handler(commands="menu")
 async def send_menu(message: types.Message):
@@ -33,7 +39,7 @@ async def send_menu(message: types.Message):
     await message.answer(text=text)
 
 @dp.message_handler(commands="about")
-async def send_menu(message: types.Message):
+async def send_about(message: types.Message):
     text = (f"""
 Привет! 👋 Я - CaptchaGuard!
 Я бот, который защищает капчей публичные чаты от пользователей-ботов.\n
@@ -60,11 +66,29 @@ async def send_menu(message: types.Message):
     await TechSupport.send_msg.set()
 
 @dp.message_handler(state=TechSupport.send_msg, content_types=types.ContentTypes.TEXT)
-async def forward_to_support(message: types.Message):
-    msg = message.text.title()
-    await dp.bot.send_message(int(config.ADMINS), msg)
-    await message.sen
+async def forward_to_support(message: types.Message, state: FSMContext):
+    msg = message.message_id
+    await dp.bot.forward_message(int(config.ADMINS), message.chat.id, msg)
+    await state.update_data(chat_id=message.chat.id)
+    print(message.chat.id)
+    ReplyTo.chat_id = message.chat.id
+    ReplyTo.msg_id = message.forward_from_chat.id
     await message.answer("Сообщение отправлено. Спасибо!")
+    await state.finish()
+
+@dp.message_handler(commands="reply", state="*")
+async def reply_to_user(message: types.Message):
+    if message.chat.id == int(config.ADMINS):
+        await message.answer("Можешь отвечать!")
+        await SupportReply.send_msg.set()
+    else:
+        pass
+@dp.message_handler(state=SupportReply.send_msg, content_types=types.ContentTypes.TEXT)
+async def end_step(message: types.Message, state: FSMContext):
+    #msg = message.text
+    #if message.reply_to_message.
+    #await bot.send_message(ReplyTo.chat_id, msg)
+    #await message.answer(str(ReplyTo.chat_id))
     await state.finish()
 
 @dp.message_handler(commands="cancel")
@@ -155,3 +179,4 @@ async def change_language(call: CallbackQuery):
     await commhandlers.database.set_new_lang(call.message.chat.id, language)
     await call.message.edit_reply_markup()
     await call.message.edit_text("✅")
+
