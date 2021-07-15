@@ -35,12 +35,14 @@ async def send_menu(message: types.Message):
 /set_language: Сменить язык 🌍
 /set_greeting: Сменить приветствие ⭐️
 /disable_captcha: Отключить капчу 🔓
-/enable_captcha: Включить капчу 🔒""")
+/enable_captcha: Включить капчу 🔒
+/contact: Написать разработчику ⚙""")
     await message.answer(text=text)
 
 @dp.message_handler(commands="about")
 async def send_about(message: types.Message):
-    text = (f"""
+    if message.chat.id != message.from_user.id:
+        text = _(f"""
 Привет! 👋 Я - CaptchaGuard!
 Я бот, который защищает капчей публичные чаты от пользователей-ботов.\n
 Как это работает:
@@ -48,16 +50,29 @@ async def send_about(message: types.Message):
 Пользователь, который не дал ответ, или ответил неправильно, считается ботом и исключается из чата.
 Если пользователь ответил правильно - он верифицирован и может общаться в вашем чате.\n
 CaptchaGuard - бот с открытым кодом!
+https://github.com/Stegogo/CaptchaGuard-bot\n
 Пожалуйста, поддержите разработчика на карту ❤️5168755455346094\n
 Доступные команды:
 /menu: Главное меню ✏️
 /contact: Написать разработчику ⚙️
 """)
-    await message.answer(text=text)
+    await message.answer(text=text, disable_web_page_preview=True)
 
-@dp.message_handler(commands="contact", state="*")
-async def send_menu(message: types.Message):
-    text = (f"""
+@dp.message_handler(commands="contact")
+async def send_contact(message: types.Message):
+    if message.chat.id != message.from_user.id:
+        text = _(f"""
+Чтобы написать разработчику, перейди в личные сообщения с ботом:\n
+⚙️https://t.me/captchaguardbot?start=techsupport🔧\n
+Спасибо заранее! Ты получишь ответ в течение 24 часов.
+""")
+        await message.answer(text=text)
+    else:
+        await send_support(message)
+
+@dp.message_handler(commands="techsupport", state="*")
+async def send_support(message: types.Message):
+    text = _(f"""
 То, что ты сейчас напишешь, будет переслано разработчику!
 Постарайся уместить то, что хочешь сказать, в одном сообщении ❤️\n
 Чтобы отменить команду - нажми /cancel
@@ -65,15 +80,16 @@ async def send_menu(message: types.Message):
     await message.answer(text=text)
     await TechSupport.send_msg.set()
 
+@dp.message_handler(commands="cancel", state=TechSupport.send_msg)
+async def forward_cancel(message: types.Message, state: FSMContext):
+    await message.answer("✅")
+    await state.finish()
+
 @dp.message_handler(state=TechSupport.send_msg, content_types=types.ContentTypes.TEXT)
 async def forward_to_support(message: types.Message, state: FSMContext):
     msg = message.message_id
     await dp.bot.forward_message(int(config.ADMINS), message.chat.id, msg)
-    await state.update_data(chat_id=message.chat.id)
-    print(message.chat.id)
-    ReplyTo.chat_id = message.chat.id
-    ReplyTo.msg_id = message.forward_from_chat.id
-    await message.answer("Сообщение отправлено. Спасибо!")
+    await message.answer_("Сообщение отправлено. Спасибо!")
     await state.finish()
 
 @dp.message_handler(commands="reply", state="*")
@@ -85,15 +101,9 @@ async def reply_to_user(message: types.Message):
         pass
 @dp.message_handler(state=SupportReply.send_msg, content_types=types.ContentTypes.TEXT)
 async def end_step(message: types.Message, state: FSMContext):
-    #msg = message.text
-    #if message.reply_to_message.
-    #await bot.send_message(ReplyTo.chat_id, msg)
-    #await message.answer(str(ReplyTo.chat_id))
-    await state.finish()
-
-@dp.message_handler(commands="cancel")
-async def forward_cancel(message: types.Message):
-    await message.answer("✅")
+    msg = message.text
+    await bot.send_message(message.reply_to_message.forward_from.id, msg)
+    await message.answer("Ответ отправлен!")
     await state.finish()
 
 @dp.message_handler(commands="set_greeting")

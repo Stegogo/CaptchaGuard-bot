@@ -194,6 +194,21 @@ async def handler_new_member(message: types.Message):
     else:
         await database.add_new_chat_id(message.chat.id, 'en', " ", "True", message)     # Default options
 
+@dp.message_handler(commands="start")
+async def ans_step(message: types.Message, state: FSMContext):
+    text = _(f"""
+Привет! 👋 Я - CaptchaGuard!
+Я бот, который защищает капчей публичные чаты от пользователей-ботов.\n
+Чтобы я начал работать - добавьте меня в чат и сделайте администратором.\n
+CaptchaGuard - бот с открытым кодом!
+https://github.com/Stegogo/CaptchaGuard-bot\n
+Пожалуйста, поддержите разработчика на карту ❤️5168755455346094\n
+Доступные команды:
+/menu: Главное меню ✏️
+/contact: Написать разработчику ⚙️
+    """)
+    await message.answer(text=text, disable_web_page_preview=True)
+
 # Adding new captcha to the database
 @dp.message_handler(commands="reg", state="*")  # Command available only for bot admin (id stated in .env)
 async def pic_step(message: types.Message):
