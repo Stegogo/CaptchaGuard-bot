@@ -15,7 +15,7 @@
       ·
       <a href="#features">Features</a>
       ·
-      <a href="#report-bug">Report Bug</a>
+      <a href="https://github.com/stegogo/CaptchaGuard-bot/issues">Report Bug</a>
     </p>
  </p>
 
@@ -55,5 +55,3 @@
   </li>
   <li>More features coming soon!
 </ul>
-
-## Report Bug
