@@ -1,4 +1,5 @@
 python-dotenv
+psycopg2-binary
 asyncpg
 psycopg2-binary
 aiogram~=2.12.1
