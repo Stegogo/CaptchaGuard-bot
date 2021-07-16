@@ -2,6 +2,13 @@ import aiogram.types
 from aiogram import executor, types
 from utils.notify_admins import on_startup_notify
 from loader import bot
+import os
+import psycopg2
+
+DATABASE_URL = os.environ['DATABASE_URL']
+
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
 
 async def on_startup(dispatcher):
     await on_startup_notify(dispatcher)
