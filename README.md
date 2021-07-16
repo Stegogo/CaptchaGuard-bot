@@ -8,7 +8,7 @@
       A captha bot to secure public chats from suspicious users
       <br> <br>
       <a href="https://telegram.me/captchaguardbot">
-        <img src="git-readme-pics/add_bot.png" alt="tg link" width="230" height="65">
+        <img src="git-readme-pics/add_bot.png" alt="tg link" width="230" height="62">
       </a>
       <br> <br>
       <a href="#how-it-works">How it Works</a>
@@ -24,10 +24,10 @@
   <p>
       CaptchaGuard is an easy-to-use bot for public chats. The bot sends a simple mathematical captcha to check if a new member of a chat is a bot. It is designed the way that a real person would complete it quite easily. Some examples of the captcha:<br>
       <p align="center">
-        <img src="git-readme-pics/05.png" alt="captcha_1" width="370" height="200">
-        <img src="git-readme-pics/08.png" alt="captcha_2" width="370" height="200">
-        <img src="git-readme-pics/07.png" alt="captcha_3" width="370" height="200">
-        <img src="git-readme-pics/10.png" alt="captcha_4" width="370" height="200">
+        <img src="git-readme-pics/05.png" alt="captcha_1" width="370" height="190">
+        <img src="git-readme-pics/08.png" alt="captcha_2" width="370" height="190">
+        <img src="git-readme-pics/07.png" alt="captcha_3" width="370" height="190">
+        <img src="git-readme-pics/10.png" alt="captcha_4" width="370" height="190">
       </p>
       <br> <br>
      <p align="center">When a new member joins the chat, CapthaBot sends a query like this one:</p>
