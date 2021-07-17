@@ -56,7 +56,7 @@ https://github.com/Stegogo/CaptchaGuard-bot\n
 /menu: Главное меню ✏️
 /contact: Написать разработчику ⚙️
 """)
-    await message.answer(text=text, disable_web_page_preview=True)
+    await message.answer(text, disable_web_page_preview=True)
 
 @dp.message_handler(commands="contact")
 async def send_contact(message: types.Message):
