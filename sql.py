@@ -6,7 +6,6 @@ from data.config import host, PG_PASS, PG_USER
 
 logging.basicConfig(format=u'%(filename)s [LINE:%(lineno)d] #%(levelname)-8s [%(asctime)s]  %(message)s',
                     level=logging.INFO)
-
 async def create_db():
     create_db_command = open("create_db.sql", "r").read()
     logging.info("Connecting to db!")
@@ -18,8 +17,6 @@ async def create_db():
     await connection.execute(create_db_command)
     logging.info("A table has been created!")
     await connection.close()
-
-
 async def create_pool():
     return await asyncpg.create_pool(
         user=PG_USER,
