@@ -1,6 +1,6 @@
 import aiogram.types
 from aiogram import executor, types
-from utils.notify_admins import on_startup_notify
+from utils.notify_admins import on_startup_notify, on_shutdown_notify
 from loader import bot
 import os
 import psycopg2
@@ -16,10 +16,9 @@ import psycopg2
 
 async def on_startup(dispatcher):
     await on_startup_notify(dispatcher)
-    #await create_db()
-    #await set_bot_commands()
 
 async def on_shutdown(dispatcher):
+    await on_shutdown_notify(dispatcher)
     await bot.close()
 
 
