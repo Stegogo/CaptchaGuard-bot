@@ -9,10 +9,19 @@ os.environ['DATABASE_URL'] = "postgres://jyufqecsbuaufz:ba2658f4cb8d34361fe71d8d
 DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
+#POSTGRESURI = os.environ['POSTGRESURI']
+#db = Gino()
+
+#async def create_db():
+
+    #await db.set_bind(POSTGRESURI)
+    #db.gino: GinoSchemaVisitor
+    #await db.gino.create_all()
 
 async def on_startup(dispatcher):
     await on_startup_notify(dispatcher)
-
+    #await create_db()
+    #await set_bot_commands()
 
 async def on_shutdown(dispatcher):
     await bot.close()

@@ -6,7 +6,7 @@ load_dotenv()
 
 TOKEN = os.getenv("TOKEN")
 ADMINS = os.getenv("ADMIN_ID")
-host = os.getenv("PGHOST")
+host = os.getenv("DB_HOST")
 PG_USER = os.getenv("PG_USER")
 PG_PASS = os.getenv("PG_PASS")
 
