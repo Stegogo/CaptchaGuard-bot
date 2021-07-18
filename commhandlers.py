@@ -9,6 +9,7 @@ from babel import Locale
 from data import config
 from keyboards import captcha, captcha_handlers
 import handlers.bot_options.options_handlers
+import psycopg2
 
 from loader import bot, dp, db, _
 import os
@@ -27,7 +28,7 @@ class Reg(StatesGroup):
 
 class DBCommands:
     pool: Connection = db
-    cursor = connection.cursor()
+    cursor = psycopg2.connection.cursor()
     cursor.execute("SELECT * FROM user")
     for buff in cursor:
         row = {}
