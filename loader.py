@@ -26,7 +26,8 @@ conn = psycopg2.connect(
             user=user,
             password=password,
             host=host,
-            port=port
+            port=port,
+            sslmode='require'
             )
 
 #DATABASE_URL = "postgres://jyufqecsbuaufz:ba2658f4cb8d34361fe71d8d7e4ddea9f711a909abda2f985046d3e1770fd177@ec2-52-19-170-215.eu-west-1.compute.amazonaws.com:5432/dbfno3t6nc4qq6"
