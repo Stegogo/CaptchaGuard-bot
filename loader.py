@@ -37,8 +37,7 @@ dbname1 = url1.path[1:]
 user1 = url1.username
 password1 = url1.password
 host1 = url1.hostname
-port1 = 5432
-
+port1 = url1.port
 
 con = psycopg2.connect(
             dbname=dbname1,
