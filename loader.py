@@ -24,8 +24,8 @@ print(os.getenv('DATABASE_URL'))
 print(os.getenv('PORT'))
 
 conn = psycopg2.connect(
-            os.getenv('DATABASE_URL'),
-            port=os.getenv('PORT'),
+            os.environ['DATABASE_URL'],
+            port=os.environ['PORT'],
             sslmode='require'
             )
 
