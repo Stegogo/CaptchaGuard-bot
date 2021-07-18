@@ -46,8 +46,10 @@ class DBCommands:
     #ADD_NEW_IMG = "INSERT INTO captcha(picture, answer, wrong_answers) VALUES ($1, $2, $3)"
     ADD_NEW_IMG = "INSERT INTO captcha(picture, answer, wrong_answers) VALUES (%s, %s, %s)"
 
-    ADD_NEW_CHAT_ID = "INSERT INTO users(chat_id, lang, greet, protect) VALUES ($1, $2, $3, $4)"
-    SET_LANG = "UPDATE users SET lang=$2 WHERE chat_id = $1"
+    #ADD_NEW_CHAT_ID = "INSERT INTO users(chat_id, lang, greet, protect) VALUES ($1, $2, $3, $4)"
+    ADD_NEW_CHAT_ID = "INSERT INTO users(chat_id, lang, greet, protect) VALUES (%s, %s, %s, %s)"
+    #SET_LANG = "UPDATE users SET lang=$2 WHERE chat_id = $1"
+    SET_LANG = "UPDATE users SET lang=%s WHERE chat_id = %s"
     SET_NEW_GREETING = "UPDATE users SET greet=$2 WHERE chat_id = $1"
     SET_PROTECTION = "UPDATE users SET protect=$2 WHERE chat_id = $1"
     GET_LANG = "SELECT lang FROM users WHERE chat_id = $1"
@@ -106,10 +108,10 @@ class DBCommands:
 
     async def add_new_chat_id(self, chat_id, lang, greet, protect, message):
         command = self.ADD_NEW_CHAT_ID
-        args = chat_id, lang, greet, protect
+        args = (chat_id, lang, greet, protect)
         await handlers.bot_options.options_handlers.send_about(message)
         try:
-            await self.pool.fetchval(command, *args)
+            self.cursor.execute(command, args)
         except UniqueViolationError:
             pass
 
@@ -119,7 +121,8 @@ class DBCommands:
 
     async def set_new_lang(self, chat_id, language):
         command = self.SET_LANG
-        return await self.pool.fetchval(command, chat_id, language)
+        return self.cursor.execute(command, (language, chat_id))
+        #return await self.pool.fetchval(command, chat_id, language)
 
     async def set_new_protect(self, chat_id, protect_mode):
         command = self.SET_PROTECTION
