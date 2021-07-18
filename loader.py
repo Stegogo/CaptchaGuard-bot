@@ -13,38 +13,38 @@ import psycopg2
 import urllib.parse as urlparse
 import os
 
-#url = urlparse.urlparse(os.getenv('DATABASE_URL'))
-#db_url = os.environ.get('DATABASE_URL')
-#dbname = os.environ.get('DB_DATABASE')
-#user = os.environ.get('DB_USER')
-#password = os.environ.get('DB_PASSWORD')
-#host = os.environ.get('DB_HOST')
-#port = os.environ.get('PORT')
+url = urlparse.urlparse(os.getenv('DATABASE_URL'))
+db_url = os.environ.get('DATABASE_URL')
+dbname = os.environ.get('DB_DATABASE')
+user = os.environ.get('DB_USER')
+password = os.environ.get('DB_PASSWORD')
+host = os.environ.get('DB_HOST')
+port = os.environ.get('PORT')
 print(os.environ.get('DATABASE_URL'))
 print(os.environ.get('PORT'))
 
-#conn = psycopg2.connect(
-            #db_url,
-            #user=user,
-            #password=password,
-            #host=host,
-            #port=port,
-            #sslmode='require'
-            #)
-
-url = urlparse.urlparse(os.environ['DATABASE_URL'])
-dbname = url.path[1:]
-user = url.username
-password = url.password
-host = url.hostname
-port = url.port
-
-con = psycopg2.connect(
-            dbname=dbname,
+conn = psycopg2.connect(
+            db_url,
             user=user,
             password=password,
             host=host,
             port=port,
+            sslmode='require'
+            )
+
+url1 = urlparse.urlparse(os.environ['DATABASE_URL'])
+dbname1 = url1.path[1:]
+user1 = url1.username
+password1 = url1.password
+host1 = url1.hostname
+port1 = url1.port
+
+con = psycopg2.connect(
+            dbname=dbname1,
+            user=user1,
+            password=password1,
+            host=host1,
+            port=port1,
             sslmode='require'
             )
 
