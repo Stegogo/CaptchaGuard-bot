@@ -23,6 +23,7 @@ port = os.environ.get('DB_PORT')
 print(os.environ.get('DATABASE_URL'))
 print(os.environ.get('DB_PORT'))
 
+
 conn = psycopg2.connect(
             db_url,
             user=user,
