@@ -122,7 +122,8 @@ class DBCommands:
 
     async def set_new_lang(self, chat_id, language):
         command = self.SET_LANG
-        return self.cursor.execute(command, (language, chat_id))
+        ch_id = str(chat_id)
+        return self.cursor.execute(command, (language, ch_id))
         #return await self.pool.fetchval(command, chat_id, language)
 
     async def set_new_protect(self, chat_id, protect_mode):
