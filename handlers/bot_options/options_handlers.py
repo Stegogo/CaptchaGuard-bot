@@ -41,8 +41,7 @@ async def send_menu(message: types.Message):
 
 @dp.message_handler(commands="about")
 async def send_about(message: types.Message):
-    if message.chat.id != message.from_user.id:
-        text = _(f"""
+    text = _(f"""
 Привет! 👋 Я - CaptchaGuard!
 Я бот, который защищает капчей публичные чаты от пользователей-ботов.\n
 Как это работает:
@@ -56,7 +55,7 @@ https://github.com/Stegogo/CaptchaGuard-bot\n
 /menu: Главное меню ✏️
 /contact: Написать разработчику ⚙️
 """)
-    await message.answer(text, disable_web_page_preview=True)
+    await message.answer(text=text, disable_web_page_preview=True)
 
 @dp.message_handler(commands="contact")
 async def send_contact(message: types.Message):
