@@ -88,7 +88,7 @@ async def forward_cancel(message: types.Message, state: FSMContext):
 async def forward_to_support(message: types.Message, state: FSMContext):
     msg = message.message_id
     await dp.bot.forward_message(int(config.ADMINS), message.chat.id, msg)
-    await message.answer_("Сообщение отправлено. Спасибо!")
+    await message.answer(_("Сообщение отправлено. Спасибо!"))
     await state.finish()
 
 @dp.message_handler(commands="reply", state="*")
