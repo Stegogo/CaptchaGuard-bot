@@ -10,6 +10,7 @@ from data import config
 from keyboards import captcha, captcha_handlers
 import handlers.bot_options.options_handlers
 import psycopg2
+import psycopg2.extras
 
 from loader import bot, dp, db, _
 import os
