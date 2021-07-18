@@ -14,18 +14,18 @@ import urllib.parse as urlparse
 import os
 
 url = urlparse.urlparse(os.getenv('DATABASE_URL'))
-db_url = os.getenv('DATABASE_URL')
-dbname = os.getenv('DB_DATABASE')
-user = os.getenv('DB_USER')
-password = os.getenv('DB_PASSWORD')
-host = os.getenv('DB_HOST')
-port = os.getenv('PORT')
-print(os.getenv('DATABASE_URL'))
-print(os.getenv('PORT'))
+db_url = os.environ.get('DATABASE_URL')
+dbname = os.environ.get('DB_DATABASE')
+user = os.environ.get('DB_USER')
+password = os.environ.get('DB_PASSWORD')
+host = os.environ.get('DB_HOST')
+port = os.environ.get('PORT')
+print(os.environ.get('DATABASE_URL'))
+print(os.environ.get('PORT'))
 
 conn = psycopg2.connect(
-            os.environ['DATABASE_URL'],
-            port=os.environ['PORT'],
+            db_url,
+            port=port,
             sslmode='require'
             )
 

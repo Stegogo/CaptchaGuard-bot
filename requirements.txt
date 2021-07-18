@@ -1,7 +1,6 @@
 python-dotenv
 psycopg2-binary
 asyncpg
-psycopg2-binary
 aiogram~=2.12.1
 Babel~=2.9.0
 gino
