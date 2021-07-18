@@ -123,6 +123,7 @@ class DBCommands:
     async def set_new_lang(self, chat_id, language):
         command = self.SET_LANG
         ch_id = str(chat_id)
+        print(ch_id)
         return self.cursor.execute(command, (language, ch_id))
         #return await self.pool.fetchval(command, chat_id, language)
 
