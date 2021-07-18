@@ -1,3 +1,5 @@
+from aiogram import executor
+
 if __name__ == '__main__':
     from commhandlers import dp
 
