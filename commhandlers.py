@@ -28,7 +28,7 @@ class Reg(StatesGroup):
 
 class DBCommands:
     pool: Connection = db
-    cursor = psycopg2.connection.cursor()
+    cursor = db.cursor()
     cursor.execute("SELECT * FROM user")
     for buff in cursor:
         row = {}
