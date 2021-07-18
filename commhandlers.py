@@ -43,7 +43,8 @@ class DBCommands:
     GET_IMAGE = "SELECT picture FROM captcha ORDER BY RANDOM() LIMIT 1"
     GET_ANS = "SELECT answer FROM captcha WHERE picture = $1"
     GET_WRONG = "SELECT wrong_answers FROM captcha WHERE picture = $1"
-    ADD_NEW_IMG = "INSERT INTO captcha(picture, answer, wrong_answers) VALUES ($1, $2, $3)"
+    #ADD_NEW_IMG = "INSERT INTO captcha(picture, answer, wrong_answers) VALUES ($1, $2, $3)"
+    ADD_NEW_IMG = "UPDATE captcha SET picture=%s, answer=%s, wrong_answers=%s)"
 
     ADD_NEW_CHAT_ID = "INSERT INTO users(chat_id, lang, greet, protect) VALUES ($1, $2, $3, $4)"
     SET_LANG = "UPDATE users SET lang=$2 WHERE chat_id = $1"
