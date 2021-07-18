@@ -13,9 +13,9 @@ import psycopg2
 import urllib.parse as urlparse
 import os
 
-url = urlparse.urlparse(os.getenv('DATABASE_URL'))
-db_url = os.environ.get('DATABASE_URL')
-dbname = os.environ.get('DB_DATABASE')
+#url = urlparse.urlparse(os.getenv('DATABASE_URL'))
+#db_url = os.environ.get('DATABASE_URL')
+#dbname = os.environ.get('DB_DATABASE')
 user = os.environ.get('DB_USER')
 password = os.environ.get('DB_PASSWORD')
 host = os.environ.get('DB_HOST')
@@ -32,6 +32,21 @@ conn = psycopg2.connect(
             sslmode='require'
             )
 
+url = urlparse.urlparse(os.environ['DATABASE_URL'])
+dbname = url.path[1:]
+user = url.username
+password = url.password
+host = url.hostname
+port = url.port
+
+con = psycopg2.connect(
+            dbname=dbname,
+            user=user,
+            password=password,
+            host=host,
+            port=port
+            )
+
 #DATABASE_URL = "postgres://jyufqecsbuaufz:ba2658f4cb8d34361fe71d8d7e4ddea9f711a909abda2f985046d3e1770fd177@ec2-52-19-170-215.eu-west-1.compute.amazonaws.com:5432/dbfno3t6nc4qq6"
 #DATABASE_URL = os.getenv('DATABASE_URL')
 #conn = psycopg2.connect(DATABASE_URL, sslmode='require', port=os.getenv('PORT'))
@@ -46,4 +61,4 @@ dp = Dispatcher(bot, storage=storage)
 from middlewares.language_middlware import setup_middleware
 i18n = setup_middleware(dp)
 _ = i18n.gettext
-db = conn
+db = con
