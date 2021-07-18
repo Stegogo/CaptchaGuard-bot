@@ -23,9 +23,6 @@ print(os.getenv('DATABASE_URL'))
 print(os.getenv('PORT'))
 
 conn = psycopg2.connect(
-            dbname=dbname,
-            user=user,
-            password=password,
             host=host,
             port=port,
             sslmode='require'
