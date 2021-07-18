@@ -139,6 +139,7 @@ class DBCommands:
         command = self.GET_LANG
         print(command)
         ch_id = str(chat_id)
+        print(ch_id)
         print(self.cursor.execute(command, (ch_id,)))
         return self.cursor.execute(command, (ch_id,))
 
