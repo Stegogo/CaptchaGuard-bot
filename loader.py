@@ -16,21 +16,21 @@ import os
 #url = urlparse.urlparse(os.getenv('DATABASE_URL'))
 #db_url = os.environ.get('DATABASE_URL')
 #dbname = os.environ.get('DB_DATABASE')
-user = os.environ.get('DB_USER')
-password = os.environ.get('DB_PASSWORD')
-host = os.environ.get('DB_HOST')
-port = os.environ.get('PORT')
+#user = os.environ.get('DB_USER')
+#password = os.environ.get('DB_PASSWORD')
+#host = os.environ.get('DB_HOST')
+#port = os.environ.get('PORT')
 print(os.environ.get('DATABASE_URL'))
 print(os.environ.get('PORT'))
 
-conn = psycopg2.connect(
-            db_url,
-            user=user,
-            password=password,
-            host=host,
-            port=port,
-            sslmode='require'
-            )
+#conn = psycopg2.connect(
+            #db_url,
+            #user=user,
+            #password=password,
+            #host=host,
+            #port=port,
+            #sslmode='require'
+            #)
 
 url = urlparse.urlparse(os.environ['DATABASE_URL'])
 dbname = url.path[1:]
@@ -44,7 +44,8 @@ con = psycopg2.connect(
             user=user,
             password=password,
             host=host,
-            port=port
+            port=port,
+            sslmode='require'
             )
 
 #DATABASE_URL = "postgres://jyufqecsbuaufz:ba2658f4cb8d34361fe71d8d7e4ddea9f711a909abda2f985046d3e1770fd177@ec2-52-19-170-215.eu-west-1.compute.amazonaws.com:5432/dbfno3t6nc4qq6"
