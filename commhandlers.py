@@ -53,7 +53,7 @@ class DBCommands:
     SET_NEW_GREETING = "UPDATE users SET greet=$2 WHERE chat_id = $1"
     SET_PROTECTION = "UPDATE users SET protect=$2 WHERE chat_id = $1"
     #GET_LANG = "SELECT lang FROM users WHERE chat_id = $1"
-    GET_LANG = "SELECT * FROM users WHERE chat_id = %s"
+    GET_LANG = "SELECT lang FROM users WHERE chat_id = %s"
     GET_GREET = "SELECT greet FROM users WHERE chat_id = $1"
     GET_PROTECT = "SELECT protect FROM users WHERE chat_id = $1"
 
@@ -135,8 +135,7 @@ class DBCommands:
 
     async def get_lang(self, chat_id):
         command = self.GET_LANG
-        l = self.cursor.execute(command, chat_id)
-        return l[2]
+        return self.cursor.execute(command, chat_id)
 
     async def get_protect(self, chat_id):
         command = self.GET_PROTECT
