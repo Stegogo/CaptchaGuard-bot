@@ -19,14 +19,14 @@ dbname = os.getenv('DB_DATABASE')
 user = os.getenv('DB_USER')
 password = os.getenv('DB_PASSWORD')
 host = os.getenv('DB_HOST')
-port = os.getenv('PORT')
+#port = os.getenv('PORT')
 
 conn = psycopg2.connect(
             dbname=dbname,
             user=user,
             password=password,
             host=host,
-            port=port,
+            port=5432,
             sslmode='require'
             )
 
