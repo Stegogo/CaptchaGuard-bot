@@ -14,6 +14,7 @@ import urllib.parse as urlparse
 import os
 
 url = urlparse.urlparse(os.getenv('DATABASE_URL'))
+db_url = os.getenv('DATABASE_URL')
 dbname = os.getenv('DB_DATABASE')
 user = os.getenv('DB_USER')
 password = os.getenv('DB_PASSWORD')
@@ -23,6 +24,7 @@ print(os.getenv('DATABASE_URL'))
 print(os.getenv('PORT'))
 
 conn = psycopg2.connect(
+            db_url,
             host=host,
             port=port,
             sslmode='require'
