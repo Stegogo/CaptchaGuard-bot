@@ -1,5 +1,6 @@
 import aiogram.types
 from aiogram import executor, types
+from types import User
 from utils.notify_admins import on_startup_notify, on_shutdown_notify
 from loader import bot
 import os
