@@ -19,7 +19,7 @@ dbname = url.path[1:]
 user = url.username
 password = url.password
 host = url.hostname
-port = url.port
+port = os.getenv('PORT')
 
 conn = psycopg2.connect(
             dbname=dbname,
