@@ -37,15 +37,15 @@ dbname1 = url1.path[1:]
 user1 = url1.username
 password1 = url1.password
 host1 = url1.hostname
-port1 = url1.port
+port1 = 5432
+
 
 con = psycopg2.connect(
             dbname=dbname1,
             user=user1,
             password=password1,
             host=host1,
-            port=5432,
-            sslmode='require'
+            port=port1
             )
 
 #DATABASE_URL = "postgres://jyufqecsbuaufz:ba2658f4cb8d34361fe71d8d7e4ddea9f711a909abda2f985046d3e1770fd177@ec2-52-19-170-215.eu-west-1.compute.amazonaws.com:5432/dbfno3t6nc4qq6"
