@@ -52,7 +52,8 @@ class DBCommands:
     SET_LANG = "UPDATE users SET lang=%s WHERE chat_id = %s"
     SET_NEW_GREETING = "UPDATE users SET greet=$2 WHERE chat_id = $1"
     SET_PROTECTION = "UPDATE users SET protect=$2 WHERE chat_id = $1"
-    GET_LANG = "SELECT lang FROM users WHERE chat_id = $1"
+    #GET_LANG = "SELECT lang FROM users WHERE chat_id = $1"
+    GET_LANG = "SELECT * FROM users WHERE chat_id = %s"
     GET_GREET = "SELECT greet FROM users WHERE chat_id = $1"
     GET_PROTECT = "SELECT protect FROM users WHERE chat_id = $1"
 
@@ -134,7 +135,8 @@ class DBCommands:
 
     async def get_lang(self, chat_id):
         command = self.GET_LANG
-        return await self.pool.fetchval(command, chat_id)
+        l = self.cursor.execute(command, args)
+        return l[2]
 
     async def get_protect(self, chat_id):
         command = self.GET_PROTECT
