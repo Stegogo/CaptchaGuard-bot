@@ -27,6 +27,14 @@ class Reg(StatesGroup):
 
 class DBCommands:
     pool: Connection = db
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM user")
+    for buff in cursor:
+        row = {}
+        c = 0
+        for col in cursor.description:
+            row.update({str(col[0]): buff[c]})
+            c += 1
     ADD_NEW_USER = "INSERT INTO users(chat_id, username, full_name) VALUES ($1, $2, $3) RETURNING id"
     COUNT_USERS = "SELECT COUNT(*) FROM users"
     GET_ID = "SELECT id FROM users WHERE chat_id = $1"
@@ -86,10 +94,11 @@ class DBCommands:
         args = img_id, img_answer, wrong_ans
 
         try:
-            await self.pool.fetchval(command, *args)
+            #await self.pool.fetchval(command, *args)
+            await psycopg2.extras.execute_values(self.cursor, command, args)
             await bot.send_message(chat_id, "Записано!")
         except UniqueViolationError:
-            pass
+            await bot.send_message(chat_id, "Ой.")
 
     async def add_new_chat_id(self, chat_id, lang, greet, protect, message):
         command = self.ADD_NEW_CHAT_ID
