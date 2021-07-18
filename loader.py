@@ -44,7 +44,7 @@ con = psycopg2.connect(
             user=user1,
             password=password1,
             host=host1,
-            port=port1,
+            port=5432,
             sslmode='require'
             )
 
