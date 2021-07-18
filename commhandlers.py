@@ -137,7 +137,7 @@ class DBCommands:
         command = self.GET_LANG
         print(command)
         ch_id = str(chat_id)
-        return self.cursor.execute(command, ch_id)
+        return self.cursor.execute(command, (ch_id,))
 
     async def get_protect(self, chat_id):
         command = self.GET_PROTECT
