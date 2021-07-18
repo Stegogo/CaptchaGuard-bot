@@ -5,7 +5,7 @@
   </a>
   <h3 align="center">CaptchaGuard bot</h3>
    <p align="center">
-      A captha bot to secure public chats from suspicious users
+      A captcha bot to secure public chats from suspicious users
       <br> <br>
       <a href="https://telegram.me/captchaguardbot">
         <img src="git-readme-pics/add_bot.png" alt="tg link" width="230" height="62">
