@@ -135,6 +135,7 @@ class DBCommands:
 
     async def get_lang(self, chat_id):
         command = self.GET_LANG
+        print(command)
         ch_id = str(chat_id)
         return self.cursor.execute(command, ch_id)
 
