@@ -25,7 +25,7 @@ print(os.environ.get('PORT'))
 
 conn = psycopg2.connect(
             db_url,
-            port=port or 5432,
+            port=5432,
             sslmode='require'
             )
 
