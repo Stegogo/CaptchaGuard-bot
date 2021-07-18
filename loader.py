@@ -19,9 +19,9 @@ dbname = os.environ.get('DB_DATABASE')
 user = os.environ.get('DB_USER')
 password = os.environ.get('DB_PASSWORD')
 host = os.environ.get('DB_HOST')
-port = os.environ.get('PORT')
+port = os.environ.get('DB_PORT')
 print(os.environ.get('DATABASE_URL'))
-print(os.environ.get('PORT'))
+print(os.environ.get('DB_PORT'))
 
 conn = psycopg2.connect(
             db_url,
