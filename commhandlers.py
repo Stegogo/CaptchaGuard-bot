@@ -98,8 +98,8 @@ class DBCommands:
 
         try:
             #await self.pool.fetchval(command, *args)
-            #await psycopg2.extras.execute_values(self.cursor, command, args)
-            await self.cursor.execute('INSERT INTO captcha(picture, answer, wrong_answers) VALUES %s', [(img_id, img_answer, wrong_ans)])
+            await psycopg2.extras.execute_values(self.cursor, command, args)
+
             await bot.send_message(chat_id, "Записано!")
         except UniqueViolationError:
             await bot.send_message(chat_id, "Ой.")
