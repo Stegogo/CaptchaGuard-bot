@@ -44,7 +44,7 @@ class DBCommands:
     GET_ANS = "SELECT answer FROM captcha WHERE picture = $1"
     GET_WRONG = "SELECT wrong_answers FROM captcha WHERE picture = $1"
     #ADD_NEW_IMG = "INSERT INTO captcha(picture, answer, wrong_answers) VALUES ($1, $2, $3)"
-    ADD_NEW_IMG = "INSERT INTO captcha(picture, answer, wrong_answers) VALUES (%s)"
+    ADD_NEW_IMG = "INSERT INTO captcha(picture, answer, wrong_answers) VALUES (%s, %s, %s)"
 
     ADD_NEW_CHAT_ID = "INSERT INTO users(chat_id, lang, greet, protect) VALUES ($1, $2, $3, $4)"
     SET_LANG = "UPDATE users SET lang=$2 WHERE chat_id = $1"
@@ -94,12 +94,12 @@ class DBCommands:
         command = self.ADD_NEW_IMG
         user = types.User.get_current()
         chat_id = user.id
-        args = [(img_id, img_answer, wrong_ans)]
+        args = (img_id, img_answer, wrong_ans)
 
         try:
             #await self.pool.fetchval(command, *args)
-            await psycopg2.extras.execute_values(self.cursor, command, args)
-
+            #await psycopg2.extras.execute_values(self.cursor, command, args)
+            self.cursor.execute(command, args)
             await bot.send_message(chat_id, "Записано!")
         except UniqueViolationError:
             await bot.send_message(chat_id, "Ой.")
