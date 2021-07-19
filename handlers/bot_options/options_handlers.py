@@ -54,6 +54,7 @@ https://github.com/Stegogo/CaptchaGuard-bot\n
 Доступные команды:
 /menu: Главное меню ✏️
 /contact: Написать разработчику ⚙️
+/set_language: Сменить язык 🌍
 """)
     await message.answer(text=text, disable_web_page_preview=True)
 
