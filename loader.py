@@ -6,7 +6,6 @@ import asyncio
 import logging
 import gettext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from sql import create_pool
 import os
 import psycopg2
 
