@@ -140,8 +140,9 @@ class DBCommands:
         print(command)
         ch_id = str(chat_id)
         print(ch_id)
-        print(self.cursor.execute(command, (ch_id,)))
-        return self.cursor.execute(command, (ch_id,))
+        self.cursor.execute(command, (ch_id,))
+        print(elf.cursor.fetchone())
+        return self.cursor.fetchone()
 
     async def get_protect(self, chat_id):
         command = self.GET_PROTECT
