@@ -18,7 +18,7 @@ async def get_lang():
     if types.User.get_current().id != types.Chat.get_current().id:
         try:
             return await database.get_lang(types.Chat.get_current().id)
-        except AttributeError:
+        except:
             return "en"
     else:
         if types.User.get_current().language_code in ['en', 'ru', 'uk']:
