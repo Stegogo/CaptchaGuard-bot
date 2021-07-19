@@ -45,6 +45,7 @@
 
 <ul>
   <li>20+ unique captcha images with shuffled answers
+  <li>This captcha is not recognized by Photomath and Google Lens
   <li>Customizable greeting message for new members
   <li>Currently available translations:
     <ul>
