@@ -37,61 +37,46 @@ class DBCommands:
         for col in cursor.description:
             row.update({str(col[0]): buff[c]})
             c += 1
-    ADD_NEW_USER = "INSERT INTO users(chat_id, username, full_name) VALUES ($1, $2, $3) RETURNING id"
-    COUNT_USERS = "SELECT COUNT(*) FROM users"
-    GET_ID = "SELECT id FROM users WHERE chat_id = $1"
+
+    GET_ID = "SELECT id FROM users WHERE chat_id = %s"
     GET_IMAGE = "SELECT picture FROM captcha ORDER BY RANDOM() LIMIT 1"
-    GET_ANS = "SELECT answer FROM captcha WHERE picture = $1"
-    GET_WRONG = "SELECT wrong_answers FROM captcha WHERE picture = $1"
-    #ADD_NEW_IMG = "INSERT INTO captcha(picture, answer, wrong_answers) VALUES ($1, $2, $3)"
+    GET_ANS = "SELECT answer FROM captcha WHERE picture = %s"
+    GET_WRONG = "SELECT wrong_answers FROM captcha WHERE picture = %s"
     ADD_NEW_IMG = "INSERT INTO captcha(picture, answer, wrong_answers) VALUES (%s, %s, %s)"
 
-    #ADD_NEW_CHAT_ID = "INSERT INTO users(chat_id, lang, greet, protect) VALUES ($1, $2, $3, $4)"
     ADD_NEW_CHAT_ID = "INSERT INTO users(chat_id, lang, greet, protect) VALUES (%s, %s, %s, %s)"
-    #SET_LANG = "UPDATE users SET lang=$2 WHERE chat_id = $1"
     SET_LANG = "UPDATE users SET lang=%s WHERE chat_id = %s"
-    SET_NEW_GREETING = "UPDATE users SET greet=$2 WHERE chat_id = $1"
-    SET_PROTECTION = "UPDATE users SET protect=$2 WHERE chat_id = $1"
-    #GET_LANG = "SELECT lang FROM users WHERE chat_id = $1"
+    SET_NEW_GREETING = "UPDATE users SET greet=%s WHERE chat_id = %s"
+    SET_PROTECTION = "UPDATE users SET protect=%s WHERE chat_id = %s"
     GET_LANG = "SELECT lang FROM users WHERE chat_id = %s"
-    GET_GREET = "SELECT greet FROM users WHERE chat_id = $1"
-    GET_PROTECT = "SELECT protect FROM users WHERE chat_id = $1"
-
-    async def add_new_user(self):
-        user = types.User.get_current()
-
-        chat_id = user.id
-        username = user.username
-        full_name = user.full_name
-        args = chat_id, username, full_name
-        command = self.ADD_NEW_USER
-
-        try:
-            record_id = await self.pool.fetchval(command, *args)
-            return record_id
-        except UniqueViolationError:
-            pass
-
-    async def count_users(self):
-        record: Record = await self.pool.fetchval(self.COUNT_USERS)
-        return record
+    GET_GREET = "SELECT greet FROM users WHERE chat_id = %s"
+    GET_PROTECT = "SELECT protect FROM users WHERE chat_id = %s"
 
     async def get_id(self):
         command = self.GET_ID
         user_id = types.User.get_current().id
-        return await self.pool.fetchval(command, user_id)
+        self.cursor.execute(command, (user_id,))
+        x = self.cursor.fetchone()
+        return x[0]
 
     async def get_image(self):
         command = self.GET_IMAGE
-        return await self.pool.fetchval(command)
+        self.cursor.execute(command)
+        x = self.cursor.fetchone()
+        print(x)
+        return x[0]
 
     async def get_ans(self, pic):
         command = self.GET_ANS
-        return await self.pool.fetchval(command, pic)
+        self.cursor.execute(command, (pic,))
+        x = self.cursor.fetchone()
+        return x[0]
 
     async def get_wrong(self, pic):
         command = self.GET_WRONG
-        return await self.pool.fetchval(command, pic)
+        self.cursor.execute(command, (pic,))
+        x = self.cursor.fetchone()
+        return x[0]
 
     async def add_new_img(self, img_id, img_answer, wrong_ans):
         command = self.ADD_NEW_IMG
@@ -100,8 +85,6 @@ class DBCommands:
         args = (img_id, img_answer, wrong_ans)
 
         try:
-            #await self.pool.fetchval(command, *args)
-            #await psycopg2.extras.execute_values(self.cursor, command, args)
             self.cursor.execute(command, args)
             await bot.send_message(chat_id, "Записано!")
         except UniqueViolationError:
@@ -118,36 +101,39 @@ class DBCommands:
 
     async def set_new_greeting(self, chat_id, text):
         command = self.SET_NEW_GREETING
-        return await self.pool.fetchval(command, chat_id, text)
+        ch_id = str(chat_id)
+        return self.cursor.execute(command, (text, ch_id))
 
     async def set_new_lang(self, chat_id, language):
         command = self.SET_LANG
         ch_id = str(chat_id)
-        print(ch_id)
         return self.cursor.execute(command, (language, ch_id))
-        #return await self.pool.fetchval(command, chat_id, language)
 
     async def set_new_protect(self, chat_id, protect_mode):
         command = self.SET_PROTECTION
-        return await self.pool.fetchval(command, chat_id, protect_mode)
+        ch_id = str(chat_id)
+        return self.cursor.execute(command, (protect_mode, ch_id))
 
     async def get_greeting(self, chat_id):
         command = self.GET_GREET
-        return await self.pool.fetchval(command, chat_id)
+        ch_id = str(chat_id)
+        self.cursor.execute(command, (ch_id,))
+        x = self.cursor.fetchone()
+        return x[0]
 
     async def get_lang(self, chat_id):
         command = self.GET_LANG
-        print(command)
         ch_id = str(chat_id)
-        print(ch_id)
         self.cursor.execute(command, (ch_id,))
         x = self.cursor.fetchone()
-        print(x[0])
         return x[0]
 
     async def get_protect(self, chat_id):
         command = self.GET_PROTECT
-        return await self.pool.fetchval(command, chat_id)
+        ch_id = str(chat_id)
+        self.cursor.execute(command, (ch_id,))
+        x = self.cursor.fetchone()
+        return x[0]
 
 
 database = DBCommands()
