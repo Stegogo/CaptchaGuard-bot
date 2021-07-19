@@ -47,7 +47,7 @@ async def send_about(message: types.Message):
 Как это работает:
 Когда к чату присоединяется новый участник, я даю ему простую задачу, чтобы проверить, бот он или человек.
 Тот кто не справился с задачей, исключается из чата!\n
-CaptchaGuard - бот с открытым кодом!
+CaptchaGuard - <a href="https://github.com/Stegogo/CaptchaGuard-bot">бот с открытым кодом</a>!
 https://github.com/Stegogo/CaptchaGuard-bot\n
 Пожалуйста, поддержите разработчика на карту ❤️5168755455346094 (MasterCard)\n
 Доступные команды:
