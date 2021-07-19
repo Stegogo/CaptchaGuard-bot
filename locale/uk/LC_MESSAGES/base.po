@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-19 10:43+0300\n"
+"POT-Creation-Date: 2021-07-19 11:48+0300\n"
 "PO-Revision-Date: 2021-07-11 21:14+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -55,7 +55,7 @@ msgstr ""
 "Помилка при введенні капчі! Не надано відповіді. Користувач був "
 "виключений з чата."
 
-#: commhandlers.py:210
+#: commhandlers.py:209
 msgid ""
 "\n"
 "Привет! 👋 Я - CaptchaGuard!\n"
@@ -166,12 +166,14 @@ msgstr ""
 "    "
 
 #: handlers/bot_options/options_handlers.py:63
+#, fuzzy
 msgid ""
 "\n"
 "Чтобы написать разработчику, перейди в личные сообщения с ботом:\n"
 "\n"
 "⚙️https://t.me/captchaguardbot?start=techsupport🔧\n"
 "\n"
+"В личных сообщениях с ботом нажми команду \"/contact\"!\n"
 "Спасибо заранее! Ты получишь ответ в течение 24 часов.\n"
 msgstr ""
 "\n"
@@ -179,9 +181,10 @@ msgstr ""
 "\n"
 "⚙️https://t.me/captchaguardbot?start=techsupport🔧\n"
 "\n"
+"У особистому чаті з ботом обери команду \"/contact\"!\n"
 "Дякую заздалегідь! Ти отримаєш відповідь протягом 24 годин.\n"
 
-#: handlers/bot_options/options_handlers.py:74
+#: handlers/bot_options/options_handlers.py:75
 msgid ""
 "\n"
 "То, что ты сейчас напишешь, будет переслано разработчику!\n"
@@ -195,11 +198,11 @@ msgstr ""
 "\n"
 "Щоб відмінити цю команду - натисни /cancel\n"
 
-#: handlers/bot_options/options_handlers.py:91
+#: handlers/bot_options/options_handlers.py:92
 msgid "Сообщение отправлено. Спасибо!"
 msgstr "Повідомлення відправлено. Дякую!"
 
-#: handlers/bot_options/options_handlers.py:113
+#: handlers/bot_options/options_handlers.py:114
 msgid ""
 "\n"
 "Вы можете настроить сообщение, которое будет приветствовать новых "
@@ -224,27 +227,27 @@ msgstr ""
 "Прибрати вітання:\n"
 "/set_new_greeting -"
 
-#: handlers/bot_options/options_handlers.py:134
+#: handlers/bot_options/options_handlers.py:135
 msgid "Сообщение приветствия изменено!"
 msgstr "Вітання змінено!"
 
-#: handlers/bot_options/options_handlers.py:146
+#: handlers/bot_options/options_handlers.py:147
 msgid "Капча отключена! 🔓 Если хотите вернуть её обратно, введите /enable_captcha"
 msgstr "Ви вимкнули капчу! 🔓 Щоб увімкнути її знову, введіть /enable_captcha"
 
-#: handlers/bot_options/options_handlers.py:148
+#: handlers/bot_options/options_handlers.py:149
 msgid "Капча уже отключена! 🔓"
 msgstr "Ви вже вимкнули капчу! 🔓"
 
-#: handlers/bot_options/options_handlers.py:159
+#: handlers/bot_options/options_handlers.py:160
 msgid "Капча включена! 🔒 Если хотите выключить её, введите /disable_captcha"
 msgstr "Ви увімкнули капчу! 🔒 Щоб вимкнути її, введіть /disable_captcha"
 
-#: handlers/bot_options/options_handlers.py:161
+#: handlers/bot_options/options_handlers.py:162
 msgid "Капча уже включена! 🔒"
 msgstr "Ви вже увімкнули капчу! 🔒"
 
-#: handlers/bot_options/options_handlers.py:181
+#: handlers/bot_options/options_handlers.py:182
 msgid "Выберите язык:"
 msgstr "Оберіть мову:"
 
