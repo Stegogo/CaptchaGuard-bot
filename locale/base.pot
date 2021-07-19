@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-19 11:56+0300\n"
+"POT-Creation-Date: 2021-07-19 12:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -104,9 +104,10 @@ msgid ""
 "Доступные команды:\n"
 "/menu: Главное меню ✏️\n"
 "/contact: Написать разработчику ⚙️\n"
+"/set_language: Сменить язык 🌍\n"
 msgstr ""
 
-#: handlers/bot_options/options_handlers.py:63
+#: handlers/bot_options/options_handlers.py:64
 msgid ""
 "\n"
 "Чтобы написать разработчику, перейди в личные сообщения с ботом:\n"
@@ -117,7 +118,7 @@ msgid ""
 "Спасибо заранее! Ты получишь ответ в течение 24 часов.\n"
 msgstr ""
 
-#: handlers/bot_options/options_handlers.py:75
+#: handlers/bot_options/options_handlers.py:76
 msgid ""
 "\n"
 "То, что ты сейчас напишешь, будет переслано разработчику!\n"
@@ -126,11 +127,11 @@ msgid ""
 "Чтобы отменить команду - нажми /cancel\n"
 msgstr ""
 
-#: handlers/bot_options/options_handlers.py:92
+#: handlers/bot_options/options_handlers.py:93
 msgid "Сообщение отправлено. Спасибо!"
 msgstr ""
 
-#: handlers/bot_options/options_handlers.py:114
+#: handlers/bot_options/options_handlers.py:115
 msgid ""
 "\n"
 "Вы можете настроить сообщение, которое будет приветствовать новых "
@@ -145,27 +146,27 @@ msgid ""
 "/set_new_greeting -"
 msgstr ""
 
-#: handlers/bot_options/options_handlers.py:135
+#: handlers/bot_options/options_handlers.py:136
 msgid "Сообщение приветствия изменено!"
 msgstr ""
 
-#: handlers/bot_options/options_handlers.py:147
+#: handlers/bot_options/options_handlers.py:148
 msgid "Капча отключена! 🔓 Если хотите вернуть её обратно, введите /enable_captcha"
 msgstr ""
 
-#: handlers/bot_options/options_handlers.py:149
+#: handlers/bot_options/options_handlers.py:150
 msgid "Капча уже отключена! 🔓"
 msgstr ""
 
-#: handlers/bot_options/options_handlers.py:160
+#: handlers/bot_options/options_handlers.py:161
 msgid "Капча включена! 🔒 Если хотите выключить её, введите /disable_captcha"
 msgstr ""
 
-#: handlers/bot_options/options_handlers.py:162
+#: handlers/bot_options/options_handlers.py:163
 msgid "Капча уже включена! 🔒"
 msgstr ""
 
-#: handlers/bot_options/options_handlers.py:182
+#: handlers/bot_options/options_handlers.py:183
 msgid "Выберите язык:"
 msgstr ""
 
