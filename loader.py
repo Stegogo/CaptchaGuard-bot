@@ -1,14 +1,10 @@
 from aiogram import Bot, Dispatcher, types
-
 from data import config
-
 import asyncio
 import logging
-import gettext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 import os
 import psycopg2
-
 import urllib.parse as urlparse
 import os
 
