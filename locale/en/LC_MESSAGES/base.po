@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-19 12:31+0300\n"
+"POT-Creation-Date: 2021-07-19 13:01+0300\n"
 "PO-Revision-Date: 2021-07-11 20:02+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -125,9 +125,8 @@ msgid ""
 "чтобы проверить, бот он или человек.\n"
 "Тот кто не справился с задачей, исключается из чата!\n"
 "\n"
-"CaptchaGuard - бот с открытым кодом!\n"
-"https://github.com/Stegogo/CaptchaGuard-bot\n"
-"\n"
+"CaptchaGuard - <a href=\"https://github.com/Stegogo/CaptchaGuard-"
+"bot\">бот с открытым кодом</a>!\n"
 "Пожалуйста, поддержите разработчика на карту ❤️5168755455346094 "
 "(MasterCard)\n"
 "\n"
@@ -145,17 +144,18 @@ msgstr ""
 "captcha, to check if new member is a bot.\n"
 "The user who failed to solve the captcha gets removed from the chat!\n"
 "\n"
-"CaptchaGuard is an open-source project!\n"
+"CaptchaGuard is <a href=\"https://github.com/Stegogo/CaptchaGuard-bot\">an open-source project</a>!\n"
 "https://github.com/Stegogo/CaptchaGuard-bot\n"
 "\n"
-"Please, support the developer if you like the bot ❤️5168755455346094 (MasterCard)\n"
+"Please, support the developer if you like the bot ❤️5168755455346094 "
+"(MasterCard)\n"
 "\n"
 "Available commands:\n"
 "/menu: Call main menu ✏️\n"
 "/contact: Contact the developer ⚙️\n"
 "/set_language: Change language 🌍\n"
 
-#: handlers/bot_options/options_handlers.py:63
+#: handlers/bot_options/options_handlers.py:62
 msgid ""
 "\n"
 "Чтобы написать разработчику, перейди в личные сообщения с ботом:\n"
@@ -174,7 +174,7 @@ msgstr ""
 "In a private chat hit contact command!\n"
 "Thanks in advance! You will get a response within 24 hours.\n"
 
-#: handlers/bot_options/options_handlers.py:75
+#: handlers/bot_options/options_handlers.py:74
 msgid ""
 "\n"
 "То, что ты сейчас напишешь, будет переслано разработчику!\n"
@@ -188,11 +188,11 @@ msgstr ""
 "\n"
 "To cancel - click /cancel\n"
 
-#: handlers/bot_options/options_handlers.py:92
+#: handlers/bot_options/options_handlers.py:91
 msgid "Сообщение отправлено. Спасибо!"
 msgstr "Message sent. Thanks!"
 
-#: handlers/bot_options/options_handlers.py:114
+#: handlers/bot_options/options_handlers.py:113
 msgid ""
 "\n"
 "Вы можете настроить сообщение, которое будет приветствовать новых "
@@ -217,27 +217,27 @@ msgstr ""
 "To disable greeting message:\n"
 "/set_new_greeting -"
 
-#: handlers/bot_options/options_handlers.py:135
+#: handlers/bot_options/options_handlers.py:134
 msgid "Сообщение приветствия изменено!"
 msgstr "New greeting message set!"
 
-#: handlers/bot_options/options_handlers.py:147
+#: handlers/bot_options/options_handlers.py:146
 msgid "Капча отключена! 🔓 Если хотите вернуть её обратно, введите /enable_captcha"
 msgstr "Captcha is OFF! 🔓 To enable it, type /enable_captcha"
 
-#: handlers/bot_options/options_handlers.py:149
+#: handlers/bot_options/options_handlers.py:148
 msgid "Капча уже отключена! 🔓"
 msgstr "Captcha is already off! 🔓"
 
-#: handlers/bot_options/options_handlers.py:160
+#: handlers/bot_options/options_handlers.py:159
 msgid "Капча включена! 🔒 Если хотите выключить её, введите /disable_captcha"
 msgstr "Captcha is ON! 🔒 To disable it, type /disable_captcha"
 
-#: handlers/bot_options/options_handlers.py:162
+#: handlers/bot_options/options_handlers.py:161
 msgid "Капча уже включена! 🔒"
 msgstr "Captcha is already on! 🔒"
 
-#: handlers/bot_options/options_handlers.py:182
+#: handlers/bot_options/options_handlers.py:181
 msgid "Выберите язык:"
 msgstr "Choose language"
 
