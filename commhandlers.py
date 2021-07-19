@@ -196,14 +196,17 @@ async def handler_new_member(message: types.Message):
         global data
         target_user_data = message.new_chat_members[0]
         data = target_user_data
-        target_user_fname = message.new_chat_members[0].first_name
         if not message.new_chat_members[0].is_bot:
             if data is None:
                 pass
             else:
                 await register_user(message, target_user_data)
     else:
-        await database.add_new_chat_id(message.chat.id, 'en', " ", "True", message)     # Default options
+        if types.User.get_current().language_code in ['en', 'ru', 'uk']:
+            curr_language = await types.User.get_current().language_code
+        else:
+            curr_language = 'en'
+        await database.add_new_chat_id(message.chat.id, curr_language, " ", "True", message)     # Default options
 
 @dp.message_handler(commands="start")
 async def ans_step(message: types.Message, state: FSMContext):
