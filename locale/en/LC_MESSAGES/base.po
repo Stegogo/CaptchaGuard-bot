@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-19 12:17+0300\n"
+"POT-Creation-Date: 2021-07-19 12:31+0300\n"
 "PO-Revision-Date: 2021-07-11 20:02+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -123,15 +123,13 @@ msgid ""
 "Как это работает:\n"
 "Когда к чату присоединяется новый участник, я даю ему простую задачу, "
 "чтобы проверить, бот он или человек.\n"
-"Пользователь, который не дал ответ, или ответил неправильно, считается "
-"ботом и исключается из чата.\n"
-"Если пользователь ответил правильно - он верифицирован и может общаться в"
-" вашем чате.\n"
+"Тот кто не справился с задачей, исключается из чата!\n"
 "\n"
 "CaptchaGuard - бот с открытым кодом!\n"
 "https://github.com/Stegogo/CaptchaGuard-bot\n"
 "\n"
-"Пожалуйста, поддержите разработчика на карту ❤️5168755455346094\n"
+"Пожалуйста, поддержите разработчика на карту ❤️5168755455346094 "
+"(MasterCard)\n"
 "\n"
 "Доступные команды:\n"
 "/menu: Главное меню ✏️\n"
@@ -145,22 +143,19 @@ msgstr ""
 "How it works:\n"
 "When a new member joins the chat, I give them a simple mathematical "
 "captcha, to check if new member is a bot.\n"
-"The user who failed to solve the captcha or ignored it counts as a bot "
-"and gets removed from the chat.\n"
-"The user who solved the captcha correctly, counts as a human. This member"
-" is now verified and can start chatting! \n"
+"The user who failed to solve the captcha gets removed from the chat!\n"
 "\n"
 "CaptchaGuard is an open-source project!\n"
 "https://github.com/Stegogo/CaptchaGuard-bot\n"
 "\n"
-"Please, support the developer if you like the bot ❤️5168755455346094\n"
+"Please, support the developer if you like the bot ❤️5168755455346094 (MasterCard)\n"
 "\n"
 "Available commands:\n"
 "/menu: Call main menu ✏️\n"
 "/contact: Contact the developer ⚙️\n"
 "/set_language: Change language 🌍\n"
 
-#: handlers/bot_options/options_handlers.py:64
+#: handlers/bot_options/options_handlers.py:63
 msgid ""
 "\n"
 "Чтобы написать разработчику, перейди в личные сообщения с ботом:\n"
@@ -179,7 +174,7 @@ msgstr ""
 "In a private chat hit contact command!\n"
 "Thanks in advance! You will get a response within 24 hours.\n"
 
-#: handlers/bot_options/options_handlers.py:76
+#: handlers/bot_options/options_handlers.py:75
 msgid ""
 "\n"
 "То, что ты сейчас напишешь, будет переслано разработчику!\n"
@@ -193,11 +188,11 @@ msgstr ""
 "\n"
 "To cancel - click /cancel\n"
 
-#: handlers/bot_options/options_handlers.py:93
+#: handlers/bot_options/options_handlers.py:92
 msgid "Сообщение отправлено. Спасибо!"
 msgstr "Message sent. Thanks!"
 
-#: handlers/bot_options/options_handlers.py:115
+#: handlers/bot_options/options_handlers.py:114
 msgid ""
 "\n"
 "Вы можете настроить сообщение, которое будет приветствовать новых "
@@ -222,27 +217,27 @@ msgstr ""
 "To disable greeting message:\n"
 "/set_new_greeting -"
 
-#: handlers/bot_options/options_handlers.py:136
+#: handlers/bot_options/options_handlers.py:135
 msgid "Сообщение приветствия изменено!"
 msgstr "New greeting message set!"
 
-#: handlers/bot_options/options_handlers.py:148
+#: handlers/bot_options/options_handlers.py:147
 msgid "Капча отключена! 🔓 Если хотите вернуть её обратно, введите /enable_captcha"
 msgstr "Captcha is OFF! 🔓 To enable it, type /enable_captcha"
 
-#: handlers/bot_options/options_handlers.py:150
+#: handlers/bot_options/options_handlers.py:149
 msgid "Капча уже отключена! 🔓"
 msgstr "Captcha is already off! 🔓"
 
-#: handlers/bot_options/options_handlers.py:161
+#: handlers/bot_options/options_handlers.py:160
 msgid "Капча включена! 🔒 Если хотите выключить её, введите /disable_captcha"
 msgstr "Captcha is ON! 🔒 To disable it, type /disable_captcha"
 
-#: handlers/bot_options/options_handlers.py:163
+#: handlers/bot_options/options_handlers.py:162
 msgid "Капча уже включена! 🔒"
 msgstr "Captcha is already on! 🔒"
 
-#: handlers/bot_options/options_handlers.py:183
+#: handlers/bot_options/options_handlers.py:182
 msgid "Выберите язык:"
 msgstr "Choose language"
 
