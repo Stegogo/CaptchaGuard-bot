@@ -160,7 +160,6 @@ msgstr ""
 "    "
 
 #: handlers/bot_options/options_handlers.py:63
-#, fuzzy
 msgid ""
 "\n"
 "Чтобы написать разработчику, перейди в личные сообщения с ботом:\n"
