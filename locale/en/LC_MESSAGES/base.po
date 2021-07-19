@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-15 20:20+0300\n"
+"POT-Creation-Date: 2021-07-19 10:43+0300\n"
 "PO-Revision-Date: 2021-07-11 20:02+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.0\n"
 
-#: commhandlers.py:139
+#: commhandlers.py:150
 msgid ""
 "\n"
 "            Привет, $user! Докажи, что ты не бот, и дай ответ на задачу с"
@@ -28,7 +28,7 @@ msgstr ""
 "Welcome, $user! Prove that you're not a bot and solve the captcha below. "
 "You have 60 seconds!\n"
 
-#: commhandlers.py:143
+#: commhandlers.py:154
 msgid ""
 "\n"
 "            Привет! Докажи, что ты не бот, и дай ответ на задачу с "
@@ -38,17 +38,17 @@ msgstr ""
 "Welcome! Prove that you're not a bot and solve the captcha below. You "
 "have 60 seconds!\n"
 
-#: commhandlers.py:154
+#: commhandlers.py:165
 msgid "➖Нажми на правильный ответ➖"
 msgstr "➖Choose the correct answer➖"
 
-#: commhandlers.py:176
+#: commhandlers.py:187
 msgid ""
 "Пользователь провалил капчу! Ответ не был выбран. Пользователь исключён "
 "из чата."
 msgstr "Captha failed! Answer not given. The user is banned from the chat."
 
-#: commhandlers.py:199
+#: commhandlers.py:210
 msgid ""
 "\n"
 "Привет! 👋 Я - CaptchaGuard!\n"
@@ -114,7 +114,7 @@ msgstr ""
 "/enable_captcha: Enable protection 🔒\n"
 "/contact: Contact developer ⚙    "
 
-#: handlers/bot_options/options_handlers.py:45
+#: handlers/bot_options/options_handlers.py:44
 msgid ""
 "\n"
 "Привет! 👋 Я - CaptchaGuard!\n"
@@ -159,7 +159,7 @@ msgstr ""
 "/contact: Contact the developer ⚙️\n"
 "    "
 
-#: handlers/bot_options/options_handlers.py:64
+#: handlers/bot_options/options_handlers.py:63
 msgid ""
 "\n"
 "Чтобы написать разработчику, перейди в личные сообщения с ботом:\n"
@@ -175,7 +175,7 @@ msgstr ""
 "\n"
 "Thanks in advance! You will get a response within 24 hours.\n"
 
-#: handlers/bot_options/options_handlers.py:75
+#: handlers/bot_options/options_handlers.py:74
 msgid ""
 "\n"
 "То, что ты сейчас напишешь, будет переслано разработчику!\n"
@@ -189,7 +189,11 @@ msgstr ""
 "\n"
 "To cancel - click /cancel\n"
 
-#: handlers/bot_options/options_handlers.py:114
+#: handlers/bot_options/options_handlers.py:91
+msgid "Сообщение отправлено. Спасибо!"
+msgstr "Message sent. Thanks!"
+
+#: handlers/bot_options/options_handlers.py:113
 msgid ""
 "\n"
 "Вы можете настроить сообщение, которое будет приветствовать новых "
@@ -214,27 +218,27 @@ msgstr ""
 "To disable greeting message:\n"
 "/set_new_greeting -"
 
-#: handlers/bot_options/options_handlers.py:135
+#: handlers/bot_options/options_handlers.py:134
 msgid "Сообщение приветствия изменено!"
 msgstr "New greeting message set!"
 
-#: handlers/bot_options/options_handlers.py:147
+#: handlers/bot_options/options_handlers.py:146
 msgid "Капча отключена! 🔓 Если хотите вернуть её обратно, введите /enable_captcha"
 msgstr "Captcha is OFF! 🔓 To enable it, type /enable_captcha"
 
-#: handlers/bot_options/options_handlers.py:149
+#: handlers/bot_options/options_handlers.py:148
 msgid "Капча уже отключена! 🔓"
 msgstr "Captcha is already off! 🔓"
 
-#: handlers/bot_options/options_handlers.py:160
+#: handlers/bot_options/options_handlers.py:159
 msgid "Капча включена! 🔒 Если хотите выключить её, введите /disable_captcha"
 msgstr "Captcha is ON! 🔒 To disable it, type /disable_captcha"
 
-#: handlers/bot_options/options_handlers.py:162
+#: handlers/bot_options/options_handlers.py:161
 msgid "Капча уже включена! 🔒"
 msgstr "Captcha is already on! 🔒"
 
-#: handlers/bot_options/options_handlers.py:182
+#: handlers/bot_options/options_handlers.py:181
 msgid "Выберите язык:"
 msgstr "Choose language"
 
