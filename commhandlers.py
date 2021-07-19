@@ -202,10 +202,9 @@ async def handler_new_member(message: types.Message):
             else:
                 await register_user(message, target_user_data)
     else:
+        curr_language = "en"
         if types.User.get_current().language_code in ['en', 'ru', 'uk']:
             curr_language = types.User.get_current().language_code
-        else:
-            curr_language = 'en'
         await database.add_new_chat_id(message.chat.id, curr_language, " ", "True", message)     # Default options
 
 @dp.message_handler(commands="start")
