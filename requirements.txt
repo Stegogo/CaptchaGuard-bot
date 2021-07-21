@@ -5,3 +5,4 @@ aiogram~=2.12.1
 Babel~=2.9.0
 gino
 environs~=8.0.0
+ 
